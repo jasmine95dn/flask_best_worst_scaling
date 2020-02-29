@@ -1,1 +1,1 @@
-import flask-best-worst-scaling as swp
+import "flask-best-worst-scaling" as swp
