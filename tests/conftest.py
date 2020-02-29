@@ -1,7 +1,7 @@
 import pytest, os
-from swp.project.models import *
-from swp.project import create_app, db
-from swp.config import config
+from flask_best_worst_scaling.project.models import *
+from flask_best_worst_scaling.project import create_app, db
+from flask_best_worst_scaling.config import config
 
 #################################
 # Configurations for Unit Tests #
