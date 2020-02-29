@@ -1,0 +1,41 @@
+<HTMLQuestion xmlns="http://mechanicalturk.amazonaws.com/AWSMechanicalTurkDataSchemas/2011-11-11/HTMLQuestion.xsd">
+<HTMLContent><![CDATA[
+<html>
+<head>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<script type='text/javascript' src='https://s3.amazonaws.com/mturk-public/externalHIT_v1.js'></script>
+</head>
+
+<body>
+<form name='mturk_form' method='post' id='mturk_form' action='https://workersandbox.mturk.com/mturk/externalSubmit'><input type='hidden' value='' name='assignmentId' id='assignmentId'/>
+
+<h2> {{title}} </h2>
+
+<h3> {{description}} </h3>
+
+<ul>
+  <li> You will receive a keyword to type in the field below after annotating this HIT. Don't close this window! Type it in correctly or you won't get paid for your annotations. If you don't want to annotate this HIT, just close the window with the questionnaire, don't submit it! </li>
+
+  <li> Click <a href='{{ url }}' target='_blank' rel='noopener noreferrer'> here </a> to go to the site with questionnaire ! </li>
+</ul>
+
+<div><input type='text' name='keyword' placeholder='Type in your keyword' /></div>
+
+
+<div><input type='submit' id='submitButton' value='Submit' /></div>
+</form>
+
+<script language='Javascript'>turkSetAssignmentID();</script>
+
+</body>
+
+</html>
+<!-- YOUR HTML ENDS -->
+
+]]>
+
+</HTMLContent>
+
+<FrameHeight>600</FrameHeight>
+
+</HTMLQuestion>

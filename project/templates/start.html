@@ -1,0 +1,58 @@
+{%- extends "bootstrap/base.html" %}
+
+{% block html_attribs %} lang="en" {% endblock %}
+{% block meta %} charset="UTF-8" {% endblock %}
+
+{% block title %} Homepage {% endblock %}
+
+{% block navbar %}
+<div class="navbar-nav-scroll " style=" padding-left: 75%;">
+  <ul class="navbar-nav bd-navbar-nav flex-row" style="list-style-type:none;">
+    <li class="nav-item active">
+      <a class="nav-link col-xs-4"  href="{{url_for('start')}}" style="font-size: 20px; color: green"> <b> Home </b> </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link col-xs-4"  href="{{url_for('user.main')}}" style="font-size: 20px; color: green">  User </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link col-xs-4"  href="{{url_for('annotator.login')}}" style="font-size: 20px; color: green"> Annotator </a>
+    </li>
+  </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div >
+  <div class="form-group col-md-12">
+    <div class=" alert alert-success" role="alert">
+    	<h1> <b> Welcome! </b> </h1>
+      <h4>This is a simple website using <a href="https://saifmohammad.com/WebPages/BestWorst.html" target="_blank" rel="noopener noreferrer" style="text-decoration-line: underline; text-decoration-style: dotted; color: darkgreen;"> <strong> Best-Worst-Scaling</strong></a> for evaluating items. </h4>
+      <hr>
+      <ul>
+        <li>If you come here as a user who wants to get your data evaluated through this method, click on <strong> User</strong>-Button! </li>
+        <li> If you are an annotator who wants to submit the annotation for a given project, click on <strong> Annotator</strong>-Button!</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col-md-12" role="info" style="position: relative; min-height: 200px;">
+  	<div class= "container">
+  	 <div class="row in-line">
+  	  <div class="col-xs-6">
+  		
+  		 <a href="{{ url_for('user.main') }}" class="btn btn-success btn-lg"> <span class=" glyphicon glyphicon-user"></span> User </a>
+  		
+  		 <a href="{{ url_for('annotator.login') }}" class="btn btn-info btn-lg"> <span class=" glyphicon glyphicon-user"></span> Annotator </a> 
+  		
+  	  </div>  
+  	 </div>	   
+  	</div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-copyright text-center"  style="position: absolute; bottom: 0; width:100%; background: green; height: 20px; color: lightgrey; font-size: 10pt">
+    &copy;2020, D. Nguyen, M. Charniuk, S. Safdel., Web Interface for Best-Worst-Scaling
+  </div>
+</footer>
+{% endblock %}

@@ -1,0 +1,96 @@
+{%- extends "bootstrap/base.html" %}
+
+{% block html_attribs %} lang="en" {% endblock %}
+{% block meta %} charset="UTF-8" {% endblock %}
+
+{% block title %} {{ project_name.upper() }}  {% endblock %}
+
+{% block navbar %}
+<div class="navbar-nav-scroll" style=" padding-left: 75%;">
+  <ul class="navbar-nav bd-navbar-nav flex-row" style="list-style-type:none;">
+    <li class="nav-item">
+	    <a class="nav-link col-xs-4"  href="{{url_for('start')}}" style="font-size: 20px; color: green"> Home </a>
+	    <a class="nav-link active col-xs-4"  href="{{url_for('user.main')}}" style="font-size: 20px; color: green"> <b> User</b> </a>
+	    <a class="nav-link col-xs-4"  href="{{url_for('annotator.login')}}" style="font-size: 20px; color: green"> Annotator </a>
+	  </li>
+  </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="col-md-12">
+  <div class="alert alert-success" role="alert">
+	<h2 class="alert-heading"> <b> {{ project_name }} </b> </h2>
+
+	<p> <b> Description</b>: <em> {{ description }}</em> </p>
+	<hr>
+
+	<ul>
+	  <li> <p>Number of items: <b> {{ n_items }} </b> </p> </li>
+	  {% if mturk %}
+		<li> <p>This project needs in total <b> {{ n_anno }} </b> annotation(s) for each HIT</p> </li>
+		  <ul>
+		  	{% for (batch_id, n_anno_join, n_anno_left) in batch_infos%}
+		  	  <li> <p> <b> {{ n_anno_join }} </b> submitted batch <b> {{ batch_id }}</b>, this still needs <b> {{ n_anno_left }} </b> more </p> </li>
+		  	{% endfor %}
+		  </ul>
+	  {% else %}
+		<li> <p>This project needs in total <b> {{ n_anno }} </b> annotator(s)</p> </li>
+		<li> <p> <b> {{ n_anno_join }} </b> joined this, this project still needs <b> {{ n_anno_left }} </b> annotator(s) more</p> </li>
+	  {% endif %}
+	</ul>
+	<hr>
+
+	<ul>
+	  <li><p class="mb-0"> You can get your results including a file with scores for each item and a report about the whole annotation process at any time as long as the process starts. </p> </li>
+	  {% if mturk %}
+	    <li> <p class="mb-0"> Click on <strong>Mechanical Turk</strong>-Button and type the project name in search box to find your uploaded project on Mechanical Turk </p> </li>
+	  {% else %}
+		<li> <p class="mb-0"> Click on <strong>Keywords</strong>-Button to get the access keywords for annotators to your data survey. </p> </li>
+	  {% endif %}
+	</ul>
+  </div>
+
+ 
+  <div class= "container-fluid">
+	<div class="row"> 
+	  <div class="col-md-1">
+		<button data-toggle="collapse" data-target="#results" role="button" aria-expanded="false" aria-controls="results" type="submit" class="btn btn-warning mb-3 btn-lg"> Results </button>
+	  </div> 
+
+	  {% if mturk %}
+	  <div class="col-md-2">
+		<a class="btn btn-info mb-2 btn-lg" href="{{ mturk_url }}" target="_blank" rel="noopener noreferrer"> Mechanical Turk </a>
+	  </div>
+	  {% else %}
+	  <div class="col-md-2">
+		<a class="btn btn-info mb-2 btn-lg" href="{{ url_for('user.get_keywords', some_name=name, p_name=p_name)}}" target="_blank" rel="noopener noreferrer"> Keywords </a>
+	  </div>
+	  {% endif %}
+
+	  <div class="col-md-8" align="right">
+		<a href="{{ url_for('user.profile', some_name=name) }}" class="btn btn-primary mb-2 btn-lg"> Back to profile  </a>
+	  </div> 
+	</div>
+
+	<br>
+	<div class="row">
+	  <div class="col-md-10">
+		<div class="collapse multi-collapse" id="results">
+		  <div class="card card-body">
+			<p style="padding-left:10px; font-size:17px"> <a href="{{ url_for('user.get_scores', some_name=name, p_name=p_name)}}" target="_blank" rel="noopener noreferrer"> scores.txt  </a> </p>
+			<p style="padding-left:10px; font-size:17px"> <a href="{{ url_for('user.get_report', some_name=name, p_name=p_name)}}" target="_blank" rel="noopener noreferrer"> report.txt  </a></p> 
+		  </div>
+		</div>  
+	  </div>
+	</div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-copyright text-center"  style="position: absolute; bottom: 0; width:100%; background: green; height: 20px; color: lightgrey; font-size: 10pt">
+    &copy;2020, D. Nguyen, M. Charniuk, S. Safdel., Web Interface for Best-Worst-Scaling
+  </div>
+</footer>
+{% endblock %}
+

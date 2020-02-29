@@ -1,0 +1,23 @@
+{%- extends "bootstrap/base.html" %}
+
+{% block html_attribs %} lang="en" {% endblock %}
+{% block meta %} charset="UTF-8" {% endblock %}
+
+{% block title %} {% endblock %}
+
+{% block navbar %}
+
+{% endblock %}
+
+{% block body %}
+  {% block page_content %} {% endblock %}
+
+  {% block footer %}
+  	<footer>
+	  <div class="footer-copyright text-center"  style="position: absolute; bottom: 0; width:100%; background: green; height: 20px; color: lightgrey; font-size: 10pt">
+	    &copy;2020, D. Nguyen, M. Charniuk, S. Safdel., Web Interface for Best-Worst-Scaling
+	  </div>
+	</footer>
+  {% endblock %}
+
+{% endblock %}

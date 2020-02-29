@@ -1,0 +1,62 @@
+{%- extends "bootstrap/base.html" %}
+{%- import "bootstrap/wtf.html" as wtf%}
+
+{% block html_attribs %} lang="en" {% endblock %}
+{% block meta %} charset="UTF-8" {% endblock %}
+
+{% block title %} Annotator - Main page {% endblock %}
+
+
+{% block navbar %}
+<div class="navbar-nav-scroll" style=" padding-left: 75%;">
+  <ul class="navbar-nav bd-navbar-nav flex-row" style="list-style-type:none;">
+  	<li class="nav-item">
+	  <a class="nav-link col-xs-4"  href="{{url_for('start')}}" style="font-size: 20px; color: dodgerblue"> Home </a>
+	</li>
+
+	<li class="nav-item">
+	  <a class="nav-link active col-xs-4"  href="{{url_for('user.main')}}" style="font-size: 20px; color: dodgerblue">  User </a>
+	</li>
+
+	<li class="nav-item col-md-3">
+	  <a class="nav-link col-xs-4"  href="{{url_for('annotator.login')}}" style="font-size: 20px; color: dodgerblue"> <b>Annotator </b> </a>
+	</li>
+  </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container" style="min-height: 100%;">
+  <form class="form-signin" method="post" action="">
+	<div class="bg-info col-md-12" role="info" style="padding: 10pt; padding-bottom: 10px">
+	  
+	  <h2 class="modal-title" > <b> Welcome to the main page! </b></h2>
+
+	  <ul style="font-size: 14pt">
+	    <li>Enter your password and your pseudoname to access the project site!</li> 
+	  	<li> This pseudoname is your choice when you first log in to this site so that no one else can use this given keyword to change your annotations. </li>
+	  </ul>
+				  
+	  <div class="form-row">  
+		  <div class="form-group col-md-4" style="font-size: 12pt">{{ wtf.form_field(form.keyword, type="password", class="form-control", placeholder='keyword to project') }} </div>
+
+		  <div class="form-group col-md-4" style="font-size: 12pt">{{ wtf.form_field(form.name, class="form-control", placeholder='your chosen (pseudo)name')}} </div>
+
+		  {{ form.hidden_tag() }}
+				  	 
+
+		  <div class="form-group col-md-3" style="padding: 18pt"> 
+		  	<button class="btn btn-primary" style="font-size: 12pt">Confirm identity</button>
+		  </div>
+	  </div>		  	
+			
+	</div>
+  </form>
+</div>
+
+<footer class="page-footer font-small">
+  <div class="footer-copyright text-center py-3" style="position: absolute; bottom: 0; width:100%; background: dodgerblue; height: 20px; color: white; font-size: 10pt" >
+    &copy;2020, D. Nguyen, M. Charniuk, S. Safdel., Web Interface for Best-Worst-Scaling
+  </div>
+</footer>
+{% endblock %}

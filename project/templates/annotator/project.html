@@ -1,0 +1,80 @@
+{%- extends "bootstrap/base.html" %}
+
+{% block html_attribs %} lang="en" {% endblock %}
+{% block meta %} charset="UTF-8" {% endblock %}
+
+{% block title %} {{ project.name.upper() }} {% endblock %}
+
+{% block navbar %}
+<div class="navbar-nav-scroll" style=" padding-left: 75%;">
+  <ul class="navbar-nav bd-navbar-nav flex-row" style="list-style-type:none;">
+  	<li class="nav-item">
+	  <a class="nav-link col-xs-4"  href="{{url_for('start')}}" style="font-size: 20px; color: dodgerblue"> Home </a>
+	  <a class="nav-link active col-xs-4"  href="{{url_for('user.main')}}" style="font-size: 20px; color: dodgerblue">  User </a>
+	  <a class="nav-link col-xs-4"  href="{{url_for('annotator.login')}}" style="font-size: 20px; color: dodgerblue"> <b>Annotator </b> </a>
+	</li>
+  </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="col-md-12">
+  <div class="alert alert-info" role="alert">
+  	<h2 class="alert-heading"> <b> {{ project.name.upper() }} </b> </h2>
+  	<hr>
+   	<h4 class="mb-0"> <strong> Project description </strong> </h4>
+   	<p> <em> {{ project.description }} </em> </p>
+  	<hr>
+  	<h4> Choose a batch to start your annotation! You can annotate as many batches as you want. </h4>
+  </div>
+
+  <div class="form-group col-md-12">
+  	{% for (p_name, batch_id, b_name), cbatch in zip(batches_links, check) %}
+	  {% if cbatch %}
+	  	<button class="btn btn-info" disabled="true"> {{ b_name }} <span class="glyphicon glyphicon-ok-sign"/> </button>
+	  {% else %}
+	  	<a class="btn btn-default" href="{{ url_for('annotator.batch', p_name=p_name, batch_id=batch_id) }}" target="_blank" rel="noopener noreferrer">{{ b_name }} <span class="glyphicon glyphicon-question-sign"/> </a>
+	  {% endif %}
+
+  	{% endfor %}
+
+  	<p>
+	  {% with messages = get_flashed_messages(category_filter=['action']) %}
+	  	{% if messages %}
+		  <ul class=flashes>
+		  	{% for message in messages %}
+			  <div aria-live="polite" role="status" data-autohide="false" aria-atomic="true" class="toast col-md-2" style="position: absolute; top: 0; right: 8%">
+				  
+			    <div class="toast-header">
+				  <strong class="mr-auto">Admin</strong>
+
+				  <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			  	</div>
+			    <div class="toast-body">
+				  <font color="red"> {{ message }} </font>
+			  	</div>
+				  
+			  </div>
+			  
+		  	{% endfor %}
+		  </ul>
+	  	{% endif %}
+	  {% endwith %}
+  	</p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-copyright text-center"  style="position: absolute; bottom: 0; width:100%; background: dodgerblue; height: 20px; color: white; font-size: 10pt">
+    &copy;2020, D. Nguyen, M. Charniuk, S. Safdel., Web Interface for Best-Worst-Scaling
+  </div>
+</footer>
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+{% endblock %}

@@ -1,0 +1,113 @@
+{%- extends "bootstrap/base.html" %}
+
+{% block html_attribs %} lang="en" {% endblock %}
+{% block meta %} charset="UTF-8" {% endblock %}
+
+{% block title %} 
+  {% if batch_id %}
+    BATCH {{batch_id}} 
+  {% elif hit_id %}
+    HIT {{hit_id}}
+  {% endif %}
+{% endblock %}
+
+{% block navbar %}
+<div class="navbar-nav-scroll" style=" padding-left: 75%;">
+  <ul class="navbar-nav bd-navbar-nav flex-row" style="list-style-type:none;">
+    <li class="nav-item">
+      <a class="nav-link col-xs-4"  href="{{url_for('start')}}" style="font-size: 20px; color: dodgerblue"> Home </a>
+      <a class="nav-link active col-xs-4"  href="{{url_for('user.main')}}" style="font-size: 20px; color: dodgerblue">  User </a>
+      <a class="nav-link col-xs-4"  href="{{url_for('annotator.login')}}" style="font-size: 20px; color: dodgerblue"> <b>Annotator </b> </a>
+    </li>
+  </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="col-md-12">
+  <div class="alert alert-info" role="alert">
+    <h3 class="alert-heading"> <strong> Project description </strong> </h3>
+    <p> <em> {{ description }} </em> </p>
+    <hr>
+    <h3> <strong> Task-specific instructions </strong> </h3>
+    <ul>
+      <li> In each set (tuple), you will be given {{tuple_size}} items. You will be asked two questions:</li>
+        <ol>
+          <p> Question a): Choose the item which is, in your opinion, likely to be  <strong>"{{best.upper()}}".</strong></p>
+          <p> Question b): Choose the item which is, in your opinion, likely to be  <strong>"{{worst.upper()}}".</strong></p>
+        </ol>
+
+      <li>You are not allowed to choose an item as both {{best}} and {{worst}} in the same tuple.</li>
+      {% if not mturk %}
+      <li> Your submitted data are only validated if you answer all the questions. Or you can save this batch and complete it later!</li>
+      {% else %}
+      <li> Your submitted data are only validated if you answer all the questions!</li>
+      {% endif %}
+    </ul>
+  </div>
+
+  <div class= "needs-validation col-md-12" novalidate>
+    <form action="" method = "post" enctype="multipart/form-data">
+
+      {% for question, tuple, form in zip(question_number, tuples, batch_form) %}
+      <ol>
+        <strong>{{question}}. Tuple {{question}}: {{tuple}} </strong>
+        <br>
+          <p>Question a): Choose the item which is, in your opinion, likely to be <strong>"{{best.upper()}}"</strong>:</p>
+        
+          <ul style="list-style-type:none">
+            {% for subform in form.best_item %}
+              {% if form.best_item.default and int(subform._value()) == form.best_item.default %}
+              <li> {{ subform(checked="checked") }} {{ subform.label }} </li>
+              {% else %}
+              <li> {{ subform }} {{ subform.label }} </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+          {% for error in form.best_item.errors %}
+            <p align="center"> <font color="red"> {{ error }}  </font> </p>
+          {% endfor %}
+
+          <p> Question b): Choose the item which is, in your opinion, likely to be <strong>"{{worst.upper()}}"</strong>:
+          </p>
+
+          <ul style="list-style-type:none">
+            {% for subform in form.worst_item %}
+              {% if form.worst_item.default and int(subform._value()) == form.worst_item.default %}
+              <li> {{ subform(checked="checked") }} {{ subform.label }} </li>
+              {% else %}
+              <li> {{ subform }} {{ subform.label }} </li>
+              {% endif %}
+           
+            {% endfor %}
+           </ul>
+          {% for error in form.worst_item.errors %}
+            <p align="center"> <font color="red"> {{ error }}  </font> </p>
+          {% endfor %}
+        {{ form.hidden_tag() }}
+          
+       </ol>
+      {% endfor %}
+
+      <div class= "container">
+        <div class="row">
+          <div class="col-xs-12" align="center">
+            {% if not mturk %}
+            <button class="btn btn-danger btn-lg" name='action' value='save'> Save </button>
+            {% endif %}
+            
+            <button type="submit" class="btn btn-success btn-lg" name='action' value='submit'> Submit </button>
+            
+            {% if not mturk %}
+            <a href="{{ url_for('annotator.project', p_name=p_name) }}" class="btn btn-primary mb-2 btn-lg"> Cancel  </a>
+            {% endif %}
+          </div>  
+        </div>      
+      </div>
+      <br>
+    </form> 
+  </div>
+</div> 
+
+{% endblock %}
+

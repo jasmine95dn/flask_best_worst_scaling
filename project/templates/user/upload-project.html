@@ -1,0 +1,156 @@
+{%- extends "bootstrap/base.html" %}
+{%- import "bootstrap/wtf.html" as wtf%}
+
+{% block html_attribs %} lang="en" {% endblock %}
+{% block meta %} charset="UTF-8" {% endblock %}
+
+{% block title %} UPLOAD PROJECT {% endblock %}
+
+{% block navbar %}
+<div class="navbar-nav-scroll" style=" padding-left: 75%;">
+  <ul class="navbar-nav bd-navbar-nav flex-row" style="list-style-type:none;">
+    <li class="nav-item">
+    <a class="nav-link col-xs-4"  href="{{url_for('start')}}" style="font-size: 20px; color: green"> Home </a>
+    <a class="nav-link active col-xs-4"  href="{{url_for('user.main')}}" style="font-size: 20px; color: green"> <b> User</b> </a>
+    <a class="nav-link col-xs-4"  href="{{url_for('annotator.login')}}" style="font-size: 20px; color: green"> Annotator </a>
+  </li>
+  </ul>
+</div>
+
+{% endblock %}
+
+{% block content %}
+<div class="col-md-12">
+	<div class="alert alert-success" role="alert">
+	  <h2 class="alert-heading"> <b> New project </b> </h2>
+	  <hr>
+	  <ul>
+		  <li>You can upload your project here. You must fill in all the fields (<em>project name </em> is optional). <b>Best</b> and <b>worst</b> must not have the same definitions, otherwise you can't create your project.</li>
+		  <li> Every uploaded file must have the format, in which each line contains only one item! You'd better give each of your projects a unique name!</li>
+	  </ul>
+	  <hr>
+	  You have 2 options to have annotators:
+	  <ul>
+	  	<li> <strong>Option 1 </strong>: Local annotator system - you will get the number of keywords corresponding to the number of annotators you require. Who annotates your project is of your choice, share a keyword with each annotator and redirect them to our <a href="{{url_for('start')}}" style="color: darkgreen; text-decoration-line: underline; text-decoration-style: dotted;"> homepage </a> so that they can do the annotations!</li>
+	  	<li> <strong>Option 2 </strong>: Mechanical Turk - your annotations will be done on this platform with anonymous annotators.</li>
+	  </ul>
+	</div>
+
+	<form method="post" action="" enctype="multipart/form-data">
+		{{ form.hidden_tag() }}
+
+		<div class="form-row">
+			<div class="form-group col-md-4">
+				{{wtf.form_field(form.name, class='form-control', placeholder='project name (optional)')}} 
+			</div>
+			<div class="form-group col-md-4">
+				{{wtf.form_field(form.anno_number, class='form-control', placeholder='number of annotators')}}
+			</div>
+			<div class="form-group col-md-4">
+				{{wtf.form_field(form.upload, class='')}}
+				<span class="glyphicon glyphicon-info-sign" href="" data-toggle="popover" data-trigger="hover" title="<strong> example.txt </strong>" data-content="item 1<br />item 2<br />item 3<br />..." style="position: absolute; left: 45%; bottom: 65%; color: darkgreen;" data-html="true">
+			</div>
+		</div>
+
+		<div class="form-row">
+			<div class="form-group col-md-12">
+				{{wtf.form_field(form.description, class='form-control', placeholder='description of this project', rows="3")}}
+			</div>
+		</div>
+
+		<div class="form-row">
+			<div class="form-group col-md-4">
+				{{wtf.form_field(form.best_def, class='form-control', placeholder='best item')}}
+		    </div>
+
+		    <div class="form-group col-md-4">
+		    	{{wtf.form_field(form.worst_def, class='form-control', placeholder='worst item')}}
+		    </div>
+
+		    <div class="form-group col-md-4">
+	  			<label class="custom-control-label" data-toggle="tooltip" title="Mechanical Turk is an Amazon crowdsourcing platform" for="defaultChecked2">Mechanical Turk (<a href="https://www.mturk.com/" target="_blank" rel="noopener noreferrer">read more</a>)</label>  {{wtf.form_field(form.mturk)}} 
+	  			<span href=""  data-toggle="tooltip" title="If you choose this option, you must change the default values of the fields below" style="position: absolute; left: 48%; bottom: 10%; color: darkgreen;" class="glyphicon glyphicon-info-sign" style="size: 100pt"/>
+			</div>
+		</div>
+
+		<div class="form-group col-md-12" align="left">
+			<em> (Fill in these fields below ONLY if you choose to upload your project on Mechanical Turk)</em>
+		</div>
+		<div class="form-row">
+			<div class="form-group col-md-6">
+				{{wtf.form_field(form.aws_access_key_id,  class='form-control',  placeholder='your_aws_access_key_id')}}
+				<a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html" data-toggle="tooltip" title="Click here to get information how to get your IAM AWS data" target="_blank" rel="noopener noreferrer" style="position: absolute; left: 30%; bottom: 73%; color: darkgreen;"> <span class="glyphicon glyphicon-info-sign"></span></a>
+			</div>
+
+			<div class="form-group col-md-6">
+				{{wtf.form_field(form.aws_secret_access_key, class='form-control', placeholder='your_aws_secret_access_key')}}
+			</div>
+		</div>
+
+		<div class="form-row">
+			<div class="form-group col-md-3">
+				{{wtf.form_field(form.keywords, class='form-control', placeholder='e.g. quick, sentiment, labeling')}}
+			</div>
+
+			<div class="form-group col-md-2">
+				{{wtf.form_field(form.reward, class='form-control', placeholder='in $')}}
+				<span href="" data-toggle="tooltip" title="How much will you pay an annotator (in $) for annotating each HIT?" style="position: absolute; bottom: 73%; left: 70%; color: darkgreen;" class="glyphicon glyphicon-info-sign"/></a>
+			</div>
+
+			<div class="form-group col-md-2">
+
+				{{wtf.form_field(form.lifetime, class='form-control', placeholder='0')}}
+				<span href="" data-toggle="tooltip" title="How long does this project stay available on Mechanical Turk? Accept only e.g. 1, 2, ... (no 1.5)" style="position: absolute; bottom: 73%; left: 55%; color: darkgreen;" class="glyphicon glyphicon-info-sign"/>
+			</div>
+
+			<div class="form-group col-md-1">
+				{{wtf.form_field(form.lifetimeunit)}}
+			</div>
+
+			<div class="form-group col-md-2">
+				{{wtf.form_field(form.hit_duration, class='form-control', placeholder='0')}}
+				<span href="" data-toggle="tooltip" title="How much time does each annotator have for annotating a HIT if he accepts it? Accept only e.g. 1, 2, ... (no 1.5)" style="position: absolute; bottom: 73%; left: 50%; color: darkgreen;" class="glyphicon glyphicon-info-sign"/>
+			</div>
+
+			<div class="form-group col-md-1">
+				{{wtf.form_field(form.duration_unit)}}
+			</div>
+		</div>
+		
+		<div class="form-row">
+			<div class="form-group col-md-12" align="center">	
+				<button type="submit" class="btn btn-danger btn-lg"><span class=" glyphicon glyphicon-flash"></span> Create </button>
+				<a href="{{ url_for('user.profile', some_name=name) }}" class="btn btn-lg btn-primary"> <span class=" glyphicon glyphicon-remove"></span>  Cancel </a>
+			</div>
+	    </div>
+	</form>
+</div>
+
+<footer>
+  <div class="footer-copyright text-center"  style="position: absolute; bottom:-45%;
+   width:100%; background: green; height: 20px; color: lightgrey; font-size: 10pt">
+    &copy;2020, D. Nguyen, M. Charniuk, S. Safdel., Web Interface for Best-Worst-Scaling
+  </div>
+</footer>
+{% endblock %}
+
+{% block scripts %}
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	{{super()}}
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('[data-toggle="tooltip"]').tooltip();	
+		}); 
+	</script>
+
+	<script>
+		$(document).ready(function(){
+		    $('[data-toggle="popover"]').popover();   
+		});
+	</script>
+
+{% endblock %}
+

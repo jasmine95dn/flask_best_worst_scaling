@@ -1,0 +1,91 @@
+{%- extends "bootstrap/base.html" %}
+
+{% block html_attribs %} lang="en" {% endblock %}
+{% block meta %} charset="UTF-8" {% endblock %}
+
+{% block title %} User - Homepage {% endblock %}
+
+{% block navbar %}
+<div class="navbar-nav-scroll" style=" padding-left: 75%;">
+  <ul class="navbar-nav bd-navbar-nav flex-row" style="list-style-type:none;">
+  	<li class="nav-item">
+	  <a class="nav-link col-xs-4"  href="{{url_for('start')}}" style="font-size: 20px; color: green"> Home </a>
+	  <a class="nav-link active col-xs-4"  href="{{url_for('user.main')}}" style="font-size: 20px; color: green"> <b> User</b> </a>
+	  <a class="nav-link col-xs-4"  href="{{url_for('annotator.login')}}" style="font-size: 20px; color: green"> Annotator </a>
+	</li>
+  </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div>
+  <div class="form-group col-md-12">
+	<div class="alert alert-success" role="alert">
+	  <h2 class="alert-heading"><strong>Welcome to User Homepage !</strong></h2>
+	  <hr>
+	  <ul>
+	  	<li><p class="mb-0">Sign up if you're a new user!</p></li>
+	  	<li><p class="mb-0"> Or you can log in now!</p></li>
+	  </ul>
+	</div>
+  </div>
+
+  <div class="col-md-12" role="info" style="position: relative; min-height: 200px;">
+	<p>
+	  {% with messages = get_flashed_messages(category_filter=['new_user']) %}
+		{% if messages %}
+		  <ul class=flashes>
+		  {% for message in messages %}
+			<div role="alert" aria-live="assertive" aria-atomic="true" class="toast col-md-2" data-autohide="false" style="position: absolute; top: 0; right: 20%;">
+			 
+			  <div class="toast-header">
+			    <strong class="mr-auto">Admin</strong>
+			    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+			  </div>
+			  <div class="toast-body">
+			    <font color="red"> {{ message }} </font>
+			  </div>
+			  
+			</div>
+		  {% endfor %}
+		  </ul>
+		{% endif %}
+	  {% endwith %}
+	</p>
+
+	<div class= "container">
+	 <div class="row in-line">
+	  <div class="col-xs-6">
+		
+		<a href="{{ url_for('user.signup') }}" class="btn btn-warning btn-lg"> <span class=" glyphicon glyphicon-user"></span> Sign up </a>
+		
+		<a href="{{ url_for('user.login') }}" class="btn btn-success btn-lg"> <span class=" glyphicon glyphicon-log-in"></span> Login </a> 
+		
+	  </div>  
+	 </div>	   
+	</div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-copyright text-center"  style="position: absolute; bottom: 0; width:100%; background: green; height: 20px; color: lightgrey; font-size: 10pt">
+    &copy;2020, D. Nguyen, M. Charniuk, S. Safdel., Web Interface for Best-Worst-Scaling
+  </div>
+</footer>
+ 
+{% endblock %}
+
+{% block scripts %}
+	{{ super() }}
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	<script>
+  		$('.toast').toast('show');
+  	</script>
+{% endblock %}
+
+
+
+

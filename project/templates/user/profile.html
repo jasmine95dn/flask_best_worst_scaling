@@ -1,0 +1,74 @@
+{%- extends "bootstrap/base.html" %}
+
+{% block html_attribs %} lang="en" {% endblock %}
+{% block meta %} charset="UTF-8" {% endblock %}
+
+{% block title %} {{name.upper()}} {% endblock %}
+
+{% block navbar %}
+<div class="navbar-nav-scroll" style=" padding-left: 75%;">
+  <ul class="navbar-nav bd-navbar-nav flex-row" style="list-style-type:none;">
+    <li class="nav-item">
+	  <a class="nav-link col-xs-4"  href="{{url_for('start')}}" style="font-size: 20px; color: green"> Home </a>
+	  <a class="nav-link active col-xs-4"  href="{{url_for('user.main')}}" style="font-size: 20px; color: green"> <b> User</b> </a>
+	  <a class="nav-link col-xs-4"  href="{{url_for('annotator.login')}}" style="font-size: 20px; color: green"> Annotator </a>
+	</li>
+  </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="col-md-12" >
+  <div class="alert alert-success" role="alert">
+	<h2 class="alert-heading">Hello, <b>{{name}} </b> !</h2>
+	<hr>
+	<p style="font-size: 12pt"> Below are all of your projects.</p>
+  </div>
+
+  <div class="form-group col-md-11" align="right">
+	<form action = "{{ url_for('user.upload_project') }}" method = "post">
+	 <button class="btn btn-danger"> <span class=" glyphicon glyphicon-tasks"> </span> Add project </button>
+	</form> 
+  </div>
+
+  <div class="form-group col-md-1" align="left">
+	<form action = "{{ url_for('user.logout') }}" >
+	 <button class="btn btn-primary"> <span class=" glyphicon glyphicon-log-out"> </span>  Logout </button>
+	</form> 
+  </div>
+
+  <div class="form-group col-md-12" >
+	<table class="table table-hover" align="center">
+	  <thead>
+		<tr class="bg-danger">
+		  {% for t_name, width_ in styles %}
+		    <th scope="col" style="width:{{ width_ }}px"> <p style="font-size:19px"> {{ t_name }} </p> </th>
+		  {% endfor %}
+		</tr>
+	  </thead>
+
+	  {% if projects %}
+		<tbody>
+		  {% for i, project in projects %}
+			<tr>
+			  <th scope="row"> <p style="font-size:17px"> {{ i }} </p> </th>
+			  <td> <p style="font-size:17px"> <a href="{{ url_for('user.project', some_name=name, p_name=project['p_name']) }}"> <b> {{ project['name'] }} </b> </a> </p> </td>
+
+			  {% for key in keys %}
+				<td> <p style="font-size:17px"> {{ project[key] }} </p> </td>
+			  {% endfor %}
+			</tr>
+		  {% endfor %}
+		</tbody>
+	  {% endif %}
+
+	</table>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-copyright text-center"  style="position: absolute; bottom: 0; width:100%; background: green; height: 20px; color: lightgrey; font-size: 10pt">
+    &copy;2020, D. Nguyen, M. Charniuk, S. Safdel., Web Interface for Best-Worst-Scaling
+  </div>
+</footer>
+{% endblock %}
