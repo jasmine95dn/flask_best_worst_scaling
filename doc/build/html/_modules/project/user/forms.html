@@ -1,0 +1,287 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>project.user.forms &#8212; Web Interface for Best-Worst-Scaling 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for project.user.forms</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Forms</span>
+<span class="sd">******</span>
+
+<span class="sd">*Module* ``project.user.forms``</span>
+
+<span class="sd">This module defines forms used inside User-System.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">flask_wtf</span> <span class="k">import</span> <span class="n">FlaskForm</span>
+<span class="kn">from</span> <span class="nn">wtforms</span> <span class="k">import</span> <span class="p">(</span><span class="n">StringField</span><span class="p">,</span> <span class="n">PasswordField</span><span class="p">,</span> <span class="n">BooleanField</span><span class="p">,</span> <span class="n">TextAreaField</span><span class="p">,</span> 
+			<span class="n">IntegerField</span><span class="p">,</span> <span class="n">MultipleFileField</span><span class="p">,</span> <span class="n">SelectField</span><span class="p">,</span> <span class="n">FloatField</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">wtforms.validators</span> <span class="k">import</span> <span class="n">InputRequired</span><span class="p">,</span> <span class="n">Length</span><span class="p">,</span> <span class="n">Email</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">..validators</span> <span class="k">import</span> <span class="n">InputValid</span><span class="p">,</span> <span class="n">Unique</span><span class="p">,</span> <span class="n">NotEqualTo</span><span class="p">,</span> <span class="n">allowed_file</span>
+<span class="kn">from</span> <span class="nn">..models</span> <span class="k">import</span> <span class="n">User</span>
+
+
+<div class="viewcode-block" id="LoginForm"><a class="viewcode-back" href="../../../project_rst/user_rst/forms.html#project.user.forms.LoginForm">[docs]</a><span class="k">class</span> <span class="nc">LoginForm</span><span class="p">(</span><span class="n">FlaskForm</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Extend :fform:`FlaskForm &lt;flask_wtf.FlaskForm&gt;`. Define login form.</span>
+
+<span class="sd">	Attributes:</span>
+<span class="sd">		username (:field:`StringField &lt;wtforms.fields.StringField&gt;`): username</span>
+<span class="sd">		password (:field:`PasswordField &lt;wtforms.fields.PasswordField&gt;`): password of user</span>
+<span class="sd">		remember (:field:`BooleanField &lt;wtforms.fields.BooleanField&gt;`): whether to remember </span>
+<span class="sd">																data of this account</span>
+
+<span class="sd">	&quot;&quot;&quot;</span>
+
+	<span class="n">username</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Username&#39;</span><span class="p">,</span> 
+							<span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="sa">u</span><span class="s1">&#39;&#39;</span><span class="p">),</span> <span class="n">Length</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">15</span><span class="p">),</span> 
+										<span class="n">InputValid</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">User</span><span class="p">,</span> <span class="n">field</span><span class="o">=</span><span class="n">User</span><span class="o">.</span><span class="n">username</span><span class="p">,</span> 
+											<span class="n">message</span><span class="o">=</span><span class="sa">u</span><span class="s1">&#39;Invalid username! Have you signed up?&#39;</span><span class="p">)</span>
+										<span class="p">])</span>
+	<span class="n">password</span> <span class="o">=</span> <span class="n">PasswordField</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Password&#39;</span><span class="p">,</span> 
+							<span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="sa">u</span><span class="s1">&#39;&#39;</span><span class="p">),</span> <span class="n">Length</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">80</span><span class="p">)])</span>
+	<span class="n">remember</span> <span class="o">=</span> <span class="n">BooleanField</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Remeber me&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="LoginForm.validate"><a class="viewcode-back" href="../../../project_rst/user_rst/forms.html#project.user.forms.LoginForm.validate">[docs]</a>	<span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Override :form:`validate() &lt;wtforms.form.Form.validate&gt;`.</span>
+
+<span class="sd">		Check if given password is valid with given valid username.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="n">FlaskForm</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+			<span class="k">return</span> <span class="kc">False</span>
+
+		<span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+		<span class="k">if</span> <span class="n">user</span> <span class="ow">and</span> <span class="n">user</span><span class="o">.</span><span class="n">check_password</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="o">.</span><span class="n">data</span><span class="p">):</span>
+			<span class="k">return</span> <span class="kc">True</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Invalid password!&#39;</span><span class="p">)</span>
+		<span class="k">return</span> <span class="kc">False</span></div></div>
+
+
+<div class="viewcode-block" id="RegisterForm"><a class="viewcode-back" href="../../../project_rst/user_rst/forms.html#project.user.forms.RegisterForm">[docs]</a><span class="k">class</span> <span class="nc">RegisterForm</span><span class="p">(</span><span class="n">FlaskForm</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Extend :fform:`FlaskForm &lt;flask_wtf.FlaskForm&gt;`. Define registration form.</span>
+
+<span class="sd">	Attributes:</span>
+<span class="sd">		username (:field:`StringField &lt;wtforms.fields.StringField&gt;`): username</span>
+<span class="sd">		email (:field:`StringField &lt;wtforms.fields.StringField&gt;`): user email</span>
+<span class="sd">		password (:field:`PasswordField &lt;wtforms.fields.PasswordField&gt;`): user password</span>
+
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">username</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Username&#39;</span><span class="p">,</span>
+				<span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="sa">u</span><span class="s1">&#39;&#39;</span><span class="p">),</span> 
+							<span class="n">Length</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> 
+							 	<span class="n">message</span><span class="o">=</span><span class="sa">u</span><span class="s1">&#39;Username must be between 4 and 15 characters long.&#39;</span><span class="p">),</span> 
+							<span class="n">Unique</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">User</span><span class="p">,</span> <span class="n">field</span><span class="o">=</span><span class="n">User</span><span class="o">.</span><span class="n">username</span><span class="p">,</span> 
+								<span class="n">message</span><span class="o">=</span><span class="sa">u</span><span class="s1">&#39;Username already exists! You can log in&#39;</span><span class="p">)</span>
+							<span class="p">])</span>
+	<span class="n">email</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Email&#39;</span><span class="p">,</span> 
+				<span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="sa">u</span><span class="s1">&#39;&#39;</span><span class="p">),</span> <span class="n">Email</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="sa">u</span><span class="s1">&#39;Invalid email&#39;</span><span class="p">),</span> 
+							<span class="n">Length</span><span class="p">(</span><span class="nb">max</span><span class="o">=</span><span class="mi">50</span><span class="p">),</span> 
+							<span class="n">Unique</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">User</span><span class="p">,</span> <span class="n">field</span><span class="o">=</span><span class="n">User</span><span class="o">.</span><span class="n">email</span><span class="p">,</span> 
+								<span class="n">message</span><span class="o">=</span><span class="sa">u</span><span class="s1">&#39;Email already exists! Use another email if you want to be a new user&#39;</span><span class="p">)</span>
+							<span class="p">])</span>
+	<span class="n">password</span> <span class="o">=</span> <span class="n">PasswordField</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Password&#39;</span><span class="p">,</span> 
+				<span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="sa">u</span><span class="s1">&#39;&#39;</span><span class="p">),</span> 
+							<span class="n">Length</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> 
+								<span class="n">message</span><span class="o">=</span><span class="sa">u</span><span class="s1">&#39;Password must be between 8 and 80 characters long.&#39;</span><span class="p">)</span>
+							<span class="p">])</span>
+
+<div class="viewcode-block" id="RegisterForm.validate_username"><a class="viewcode-back" href="../../../project_rst/user_rst/forms.html#project.user.forms.RegisterForm.validate_username">[docs]</a>	<span class="k">def</span> <span class="nf">validate_username</span><span class="p">(</span><span class="n">form</span><span class="p">,</span> <span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Validate :attr:`username`. </span>
+
+<span class="sd">		Username is not allowed to have space or special character.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">isalnum</span><span class="p">():</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Username is not allowed to have space or special characters!&#39;</span><span class="p">)</span>
+			<span class="k">return</span> <span class="kc">False</span>
+		<span class="k">return</span> <span class="kc">True</span></div></div>
+
+
+<div class="viewcode-block" id="ProjectInformationForm"><a class="viewcode-back" href="../../../project_rst/user_rst/forms.html#project.user.forms.ProjectInformationForm">[docs]</a><span class="k">class</span> <span class="nc">ProjectInformationForm</span><span class="p">(</span><span class="n">FlaskForm</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Extend :fform:`FlaskForm &lt;flask_wtf.FlaskForm&gt;`. Define form to upload a project.</span>
+
+<span class="sd">	Attributes:</span>
+<span class="sd">		upload (:field:`MultipleFileField &lt;wtforms.fields.MultipleFileField&gt;`): files of items</span>
+<span class="sd">		name (:field:`StringField &lt;wtforms.fields.StringField&gt;`): project name</span>
+<span class="sd">		description (:field:`TextAreaField &lt;wtforms.fields.TextAreaField&gt;`): project description</span>
+<span class="sd">		anno_number (:field:`IntegerField &lt;wtforms.fields.IntegerField&gt;`): number of expected annotators </span>
+<span class="sd">																			for this project</span>
+<span class="sd">		best_def (:field:`StringField &lt;wtforms.fields.StringField&gt;`): Definition of &#39;**best**&#39; </span>
+<span class="sd">																	in this project</span>
+<span class="sd">		worst_def (:field:`StringField &lt;wtforms.fields.StringField&gt;`): Definition of &#39;**worst**&#39; </span>
+<span class="sd">																	in this project</span>
+<span class="sd">		mturk (:field:`BooleanField &lt;wtforms.fields.BooleanField&gt;`): Whether to upload this project </span>
+<span class="sd">																	on Mechanical Turk</span>
+<span class="sd">		aws_access_key_id (:field:`StringField &lt;wtforms.fields.StringField&gt;`, optional): IAM AWS access key id, </span>
+<span class="sd">																*only provide if set* :attr:`mturk` == ``True``</span>
+<span class="sd">		aws_secret_access_key (:field:`StringField &lt;wtforms.fields.StringField&gt;`, optional): IAM AWS secret access key, </span>
+<span class="sd">																*only provide if set* :attr:`mturk` == ``True`` </span>
+<span class="sd">		keywords (:field:`StringField &lt;wtforms.fields.StringField&gt;`, optional): keywords to describe the project </span>
+<span class="sd">																on Mechanical Turk, *default:* ``e.g. quick, sentiment, labeling``, </span>
+<span class="sd">																*only provide if set* :attr:`mturk` == ``True``</span>
+<span class="sd">		reward (:field:`StringField &lt;wtforms.fields.StringField&gt;`, optional): reward for an annotator/turker </span>
+<span class="sd">																to annotate a HIT, *default:* ``0.15``, </span>
+<span class="sd">																*only provide if set* :attr:`mturk` == ``True``</span>
+<span class="sd">		lifetime (:field:`IntegerField &lt;wtforms.fields.IntegerField&gt;`, optional): duration of the project </span>
+<span class="sd">																to be availabe on Mechanical Turk, *default:* ``1``,</span>
+<span class="sd">																*only provide if set* :attr:`mturk` == ``True``</span>
+<span class="sd">		lifetimeunit (:field:`SelectField &lt;wtforms.fields.SelectField&gt;`, optional): duration unit for :attr:`lifetime`, </span>
+<span class="sd">																*default:* ``month``, </span>
+<span class="sd">																*only provide if set* :attr:`mturk` == ``True``</span>
+<span class="sd">		hit_duration (:field:`IntegerField &lt;wtforms.fields.IntegerField&gt;`, optional): duration of a HIT annotation </span>
+<span class="sd">																for each annotator, *default:* ``1``, </span>
+<span class="sd">																*only provide if set* :attr:`mturk` == ``True``</span>
+<span class="sd">		duration_unit (:field:`SelectField &lt;wtforms.fields.SelectField&gt;`, optional): duration unit for :attr:`hit_duration`, </span>
+<span class="sd">																*default:* ``month``, </span>
+<span class="sd">																*only provide if set* :attr:`mturk` == ``True``</span>
+
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">upload</span> <span class="o">=</span> <span class="n">MultipleFileField</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Upload file(s) of items (.txt)&#39;</span><span class="p">,</span> <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="sa">u</span><span class="s1">&#39;&#39;</span><span class="p">)])</span>
+	<span class="n">name</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Name of this project&#39;</span><span class="p">,</span> <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">Optional</span><span class="p">()])</span>
+	<span class="n">description</span> <span class="o">=</span> <span class="n">TextAreaField</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Description of this project&#39;</span><span class="p">,</span> 
+					<span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="sa">u</span><span class="s1">&#39;&#39;</span><span class="p">),</span> <span class="n">Length</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">20</span><span class="p">)]</span> <span class="p">)</span>
+	<span class="n">anno_number</span> <span class="o">=</span> <span class="n">IntegerField</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Number of expected annotators for this project&#39;</span><span class="p">,</span> 
+					<span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="sa">u</span><span class="s1">&#39;&#39;</span><span class="p">)])</span>
+	<span class="n">best_def</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;What does &#39;best&#39; literally mean in this project?&quot;</span><span class="p">,</span> 
+							<span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="sa">u</span><span class="s1">&#39;&#39;</span><span class="p">),</span> 
+										<span class="n">NotEqualTo</span><span class="p">(</span><span class="s1">&#39;worst_def&#39;</span><span class="p">,</span> 
+											<span class="n">message</span><span class="o">=</span><span class="sa">u</span><span class="s1">&#39;Both definitions are not the same!&#39;</span><span class="p">)</span>
+										<span class="p">])</span>
+	<span class="n">worst_def</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;What does &#39;worst&#39; literally mean in this project?&quot;</span><span class="p">,</span> 
+							<span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="sa">u</span><span class="s1">&#39;&#39;</span><span class="p">),</span> 
+										<span class="n">NotEqualTo</span><span class="p">(</span><span class="s1">&#39;best_def&#39;</span><span class="p">,</span> 
+											<span class="n">message</span><span class="o">=</span><span class="sa">u</span><span class="s1">&#39;Both definitions are not the same!&#39;</span><span class="p">)</span>
+										<span class="p">])</span>
+	<span class="n">mturk</span> <span class="o">=</span> <span class="n">BooleanField</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Upload project on Mechanical Turk Platform?&#39;</span><span class="p">,</span> 
+				<span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">Optional</span><span class="p">()],</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+	<span class="c1"># optional extra values if mturk == True</span>
+	<span class="n">aws_access_key_id</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Your IAM AWS access key&#39;</span><span class="p">,</span> 
+							<span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;&#39;</span><span class="p">)],</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;your_aws_access_key_id&#39;</span><span class="p">)</span>
+	<span class="n">aws_secret_access_key</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Your IAM AWS secret access key&#39;</span><span class="p">,</span> 
+							<span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;&#39;</span><span class="p">)],</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;your_aws_secret_access_key&#39;</span><span class="p">)</span>
+	<span class="n">keywords</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Keywords describing this project&#39;</span><span class="p">,</span> 
+					<span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;&#39;</span><span class="p">)],</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;e.g. quick, sentiment, labeling&#39;</span><span class="p">)</span>
+	<span class="n">reward</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Reward for each HIT&#39;</span><span class="p">,</span> <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;&#39;</span><span class="p">)],</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;0.15&#39;</span><span class="p">)</span>
+	<span class="n">lifetime</span> <span class="o">=</span> <span class="n">IntegerField</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Project lifetime&#39;</span><span class="p">,</span> <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;&#39;</span><span class="p">)],</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+	<span class="n">lifetimeunit</span> <span class="o">=</span> <span class="n">SelectField</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;In unit&#39;</span><span class="p">,</span> 
+						<span class="n">choices</span><span class="o">=</span><span class="p">[(</span><span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="s1">&#39;month(s)&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;day(s)&#39;</span><span class="p">),</span> 
+								<span class="p">(</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;hour(s)&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;min&#39;</span><span class="p">,</span> <span class="s1">&#39;minute(s)&#39;</span><span class="p">)],</span> 
+						<span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">Optional</span><span class="p">()]</span>
+						<span class="p">)</span>
+	<span class="n">hit_duration</span> <span class="o">=</span> <span class="n">IntegerField</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;HIT duration&#39;</span><span class="p">,</span> <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">InputRequired</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;&#39;</span><span class="p">)],</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+	<span class="n">duration_unit</span> <span class="o">=</span> <span class="n">SelectField</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;In unit&#39;</span><span class="p">,</span> 
+						<span class="n">choices</span><span class="o">=</span><span class="p">[(</span><span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="s1">&#39;month(s)&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;day(s)&#39;</span><span class="p">),</span> 
+								<span class="p">(</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;hour(s)&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;min&#39;</span><span class="p">,</span> <span class="s1">&#39;minute(s)&#39;</span><span class="p">)],</span> 
+						<span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">Optional</span><span class="p">()]</span>
+						<span class="p">)</span>
+	
+
+<div class="viewcode-block" id="ProjectInformationForm.validate_upload"><a class="viewcode-back" href="../../../project_rst/user_rst/forms.html#project.user.forms.ProjectInformationForm.validate_upload">[docs]</a>	<span class="k">def</span> <span class="nf">validate_upload</span><span class="p">(</span><span class="n">form</span><span class="p">,</span> <span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Validate uploaded files :attr:`upload`. </span>
+<span class="sd">		</span>
+<span class="sd">		Check if uploaded file(s) has/have one of the allowed extensions (*default:* ``{&#39;txt&#39;}``).</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">ALLOWED_EXTENSIONS</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s1">&#39;txt&#39;</span><span class="p">])</span>	
+		<span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">([</span><span class="n">allowed_file</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span> <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">]):</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;No </span><span class="si">%s</span><span class="s1"> file(s)&#39;</span><span class="o">%</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ALLOWED_EXTENSIONS</span><span class="p">)))</span>
+			<span class="k">return</span> <span class="kc">False</span>
+		
+		<span class="k">return</span> <span class="kc">True</span></div></div>
+
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">Web Interface for Best-Worst-Scaling</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../config.html">Configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../project_rst/project.html">Web Application</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../templates.html">Templates</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, D. Nguyen, M. Charniuk, S. Safdel.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

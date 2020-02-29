@@ -1,0 +1,445 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Generators &#8212; Web Interface for Best-Worst-Scaling 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Models" href="models.html" />
+    <link rel="prev" title="Web Application" href="project.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-project.generator">
+<span id="generators"></span><h1>Generators<a class="headerlink" href="#module-project.generator" title="Permalink to this headline">¶</a></h1>
+<p><em>Module</em> <code class="docutils literal notranslate"><span class="pre">project.generator</span></code></p>
+<p>This module provides some classes to generate and handle
+different types of data during running the application. This can be used
+outside the application as it works independently.</p>
+<dl class="class">
+<dt id="project.generator.BaseGenerator">
+<em class="property">class </em><code class="sig-prename descclassname">project.generator.</code><code class="sig-name descname">BaseGenerator</code><span class="sig-paren">(</span><em class="sig-param">tuples</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/project/generator.html#BaseGenerator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project.generator.BaseGenerator" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class contains a base function <a class="reference internal" href="#project.generator.BaseGenerator.get_frequency" title="project.generator.BaseGenerator.get_frequency"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_frequency()</span></code></a> to count
+occurencies of each items in all tuples.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>tuples</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)"><em>tuple</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#set" title="(in Python v3.8)"><em>set</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>)</em>) – list of tuples/lists/sets of items</p>
+</dd>
+</dl>
+<dl class="attribute">
+<dt id="project.generator.BaseGenerator.frequencies">
+<code class="sig-name descname">frequencies</code><a class="headerlink" href="#project.generator.BaseGenerator.frequencies" title="Permalink to this definition">¶</a></dt>
+<dd><p>container in form of a dictionary to
+save all items and frequencies inside given lists of sets</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/collections.html#collections.Counter" title="(in Python v3.8)">collections.Counter</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tuples</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="s1">&#39;B&#39;</span><span class="p">,</span><span class="s1">&#39;C&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span><span class="s1">&#39;C&#39;</span><span class="p">,</span><span class="s1">&#39;D&#39;</span><span class="p">),(</span><span class="s1">&#39;D&#39;</span><span class="p">,</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="s1">&#39;C&#39;</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">base</span> <span class="o">=</span> <span class="n">BaseGenerator</span><span class="p">(</span><span class="n">tuples</span><span class="o">=</span><span class="n">tuples</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">base</span><span class="o">.</span><span class="n">frequencies</span>
+<span class="go">Counter({&#39;C&#39;: 3, &#39;A&#39;: 2, &#39;B&#39;: 2, &#39;D&#39;: 2})</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="project.generator.BaseGenerator.get_frequency">
+<code class="sig-name descname">get_frequency</code><span class="sig-paren">(</span><em class="sig-param">tuples</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/project/generator.html#BaseGenerator.get_frequency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project.generator.BaseGenerator.get_frequency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Count the number of tuples each item is in.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>tuples</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)"><em>tuple</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#set" title="(in Python v3.8)"><em>set</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>)</em>) – set of tuples</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>frequencies of items in all tuples</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/collections.html#collections.Counter" title="(in Python v3.8)">collections.Counter</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="project.generator.DataGenerator">
+<em class="property">class </em><code class="sig-prename descclassname">project.generator.</code><code class="sig-name descname">DataGenerator</code><span class="sig-paren">(</span><em class="sig-param">num_iter=100</em>, <em class="sig-param">batch_size=20</em>, <em class="sig-param">minimum=5</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/project/generator.html#DataGenerator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project.generator.DataGenerator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extend <a class="reference internal" href="#project.generator.BaseGenerator" title="project.generator.BaseGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseGenerator</span></code></a>. Create an object of input data for the
+survey based on input file(s).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num_iter</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>optional</em>) – number of necessary iterations to generate
+tuples, <em>default:</em> <code class="docutils literal notranslate"><span class="pre">100</span></code></p></li>
+<li><p><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>optional</em>) – size of a normal batch, <em>default:</em> <code class="docutils literal notranslate"><span class="pre">20</span></code></p></li>
+<li><p><strong>minimum</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>optional</em>) – minimum size of a batch to be formed if the
+rest items do not meet the normal size, <em>default:</em> <code class="docutils literal notranslate"><span class="pre">5</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="attribute">
+<dt id="project.generator.DataGenerator.items">
+<code class="sig-name descname">items</code><a class="headerlink" href="#project.generator.DataGenerator.items" title="Permalink to this definition">¶</a></dt>
+<dd><p>the unique given items</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#set" title="(in Python v3.8)">set</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="project.generator.DataGenerator.tuples">
+<code class="sig-name descname">tuples</code><a class="headerlink" href="#project.generator.DataGenerator.tuples" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of all unique generated tuples with the best
+results after all iterations</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="project.generator.DataGenerator.batches">
+<code class="sig-name descname">batches</code><a class="headerlink" href="#project.generator.DataGenerator.batches" title="Permalink to this definition">¶</a></dt>
+<dd><p>all batches prepared for questionnaire</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="project.generator.DataGenerator.num_iter">
+<code class="sig-name descname">num_iter</code><a class="headerlink" href="#project.generator.DataGenerator.num_iter" title="Permalink to this definition">¶</a></dt>
+<dd><p>number of necessary iterations to generate tuples,
+<em>default:</em> <code class="docutils literal notranslate"><span class="pre">100</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="project.generator.DataGenerator.batch_size">
+<code class="sig-name descname">batch_size</code><a class="headerlink" href="#project.generator.DataGenerator.batch_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>size of a normal batch, <em>default:</em> <code class="docutils literal notranslate"><span class="pre">20</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="project.generator.DataGenerator.minimum">
+<code class="sig-name descname">minimum</code><a class="headerlink" href="#project.generator.DataGenerator.minimum" title="Permalink to this definition">¶</a></dt>
+<dd><p>minimum size of a batch to be formed if the rest
+items do not meet the normal <a class="reference internal" href="#project.generator.DataGenerator.batch_size" title="project.generator.DataGenerator.batch_size"><code class="xref py py-attr docutils literal notranslate"><span class="pre">batch_size</span></code></a>, <em>default:</em> <code class="docutils literal notranslate"><span class="pre">5</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="project.generator.DataGenerator.factor">
+<code class="sig-name descname">factor</code><a class="headerlink" href="#project.generator.DataGenerator.factor" title="Permalink to this definition">¶</a></dt>
+<dd><p>to decide the number of tuples to be
+generated - <cite>n_tuples =</cite> <a class="reference internal" href="#project.generator.DataGenerator.factor" title="project.generator.DataGenerator.factor"><code class="xref py py-attr docutils literal notranslate"><span class="pre">factor</span></code></a> <cite>* len(</cite> <a class="reference internal" href="#project.generator.DataGenerator.items" title="project.generator.DataGenerator.items"><code class="xref py py-attr docutils literal notranslate"><span class="pre">items</span></code></a> <cite>)</cite>,
+<em>default:</em> <code class="docutils literal notranslate"><span class="pre">2</span></code> if fewer than 10000 items</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a> or <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="project.generator.DataGenerator.tuple_size">
+<code class="sig-name descname">tuple_size</code><a class="headerlink" href="#project.generator.DataGenerator.tuple_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>size of each tuple, <em>default:</em> <code class="docutils literal notranslate"><span class="pre">4</span></code> if fewer than 1000
+items else <code class="docutils literal notranslate"><span class="pre">5</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">example</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;../examples/movie_reviews_examples.txt&#39;</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">DataGenerator</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="o">.</span><span class="n">generate_items</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="o">.</span><span class="n">generate_data</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="o">.</span><span class="n">items</span> <span class="c1"># items read from input example</span>
+<span class="go">{&#39;interesting&#39;, &#39;excited&#39;, &#39;annoyed&#39;, &#39;boring&#39;, &#39;aggressive&#39;, &#39;joyful&#39;, &#39;fantastic&#39;, &#39;indifferent&#39;}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="o">.</span><span class="n">tuples</span> <span class="c1"># tuples generated from the items (change each time calling this function)</span>
+<span class="go">[[&#39;interesting&#39;, &#39;indifferent&#39;, &#39;excited&#39;, &#39;joyful&#39;], [&#39;indifferent&#39;, &#39;boring&#39;, &#39;aggressive&#39;, &#39;joyful&#39;], [&#39;interesting&#39;, &#39;fantastic&#39;, &#39;annoyed&#39;, &#39;indifferent&#39;], [&#39;joyful&#39;, &#39;fantastic&#39;, &#39;annoyed&#39;, &#39;indifferent&#39;], [&#39;fantastic&#39;, &#39;annoyed&#39;, &#39;aggressive&#39;, &#39;indifferent&#39;], [&#39;fantastic&#39;, &#39;boring&#39;, &#39;indifferent&#39;, &#39;joyful&#39;], [&#39;excited&#39;, &#39;boring&#39;, &#39;aggressive&#39;, &#39;interesting&#39;], [&#39;interesting&#39;, &#39;aggressive&#39;, &#39;annoyed&#39;, &#39;joyful&#39;], [&#39;interesting&#39;, &#39;fantastic&#39;, &#39;boring&#39;, &#39;aggressive&#39;], [&#39;excited&#39;, &#39;fantastic&#39;, &#39;indifferent&#39;, &#39;joyful&#39;], [&#39;excited&#39;, &#39;boring&#39;, &#39;annoyed&#39;, &#39;joyful&#39;], [&#39;interesting&#39;, &#39;fantastic&#39;, &#39;excited&#39;, &#39;indifferent&#39;], [&#39;excited&#39;, &#39;aggressive&#39;, &#39;annoyed&#39;, &#39;interesting&#39;], [&#39;fantastic&#39;, &#39;boring&#39;, &#39;aggressive&#39;, &#39;annoyed&#39;], [&#39;interesting&#39;, &#39;fantastic&#39;, &#39;aggressive&#39;, &#39;joyful&#39;], [&#39;excited&#39;, &#39;boring&#39;, &#39;annoyed&#39;, &#39;indifferent&#39;]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="o">.</span><span class="n">batches</span> <span class="c1"># batches generated from the tuples (change each time calling this function)</span>
+<span class="go">{1: [[&#39;interesting&#39;, &#39;indifferent&#39;, &#39;excited&#39;, &#39;joyful&#39;], [&#39;indifferent&#39;, &#39;boring&#39;, &#39;aggressive&#39;, &#39;joyful&#39;], [&#39;interesting&#39;, &#39;fantastic&#39;, &#39;annoyed&#39;, &#39;indifferent&#39;], [&#39;joyful&#39;, &#39;fantastic&#39;, &#39;annoyed&#39;, &#39;indifferent&#39;], [&#39;fantastic&#39;, &#39;annoyed&#39;, &#39;aggressive&#39;, &#39;indifferent&#39;]], 2: [[&#39;fantastic&#39;, &#39;boring&#39;, &#39;indifferent&#39;, &#39;joyful&#39;], [&#39;excited&#39;, &#39;boring&#39;, &#39;aggressive&#39;, &#39;interesting&#39;], [&#39;interesting&#39;, &#39;aggressive&#39;, &#39;annoyed&#39;, &#39;joyful&#39;], [&#39;interesting&#39;, &#39;fantastic&#39;, &#39;boring&#39;, &#39;aggressive&#39;], [&#39;excited&#39;, &#39;fantastic&#39;, &#39;indifferent&#39;, &#39;joyful&#39;]], 3: [[&#39;excited&#39;, &#39;boring&#39;, &#39;annoyed&#39;, &#39;joyful&#39;], [&#39;interesting&#39;, &#39;fantastic&#39;, &#39;excited&#39;, &#39;indifferent&#39;], [&#39;excited&#39;, &#39;aggressive&#39;, &#39;annoyed&#39;, &#39;interesting&#39;], [&#39;fantastic&#39;, &#39;boring&#39;, &#39;aggressive&#39;, &#39;annoyed&#39;], [&#39;interesting&#39;, &#39;fantastic&#39;, &#39;aggressive&#39;, &#39;joyful&#39;], [&#39;excited&#39;, &#39;boring&#39;, &#39;annoyed&#39;, &#39;indifferent&#39;]]}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="o">.</span><span class="n">get_frequency</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">tuples</span><span class="p">)</span> <span class="c1"># get frequency of each item in all generated tuples</span>
+<span class="go">Counter({&#39;indifferent&#39;: 9, &#39;fantastic&#39;: 9, &#39;interesting&#39;: 8, &#39;joyful&#39;: 8, &#39;aggressive&#39;: 8, &#39;annoyed&#39;: 8, &#39;excited&#39;: 7, &#39;boring&#39;: 7})</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="project.generator.DataGenerator.generate_batches">
+<code class="sig-name descname">generate_batches</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/project/generator.html#DataGenerator.generate_batches"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project.generator.DataGenerator.generate_batches" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split the whole set of tuples into batches.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>update all batches prepared for questionnaire</dt><dd><p>(attribute <a class="reference internal" href="#project.generator.DataGenerator.batches" title="project.generator.DataGenerator.batches"><code class="xref py py-attr docutils literal notranslate"><span class="pre">batches</span></code></a>).</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a>(int = list)</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if there is no attribute <a class="reference internal" href="#project.generator.DataGenerator.tuples" title="project.generator.DataGenerator.tuples"><code class="xref py py-attr docutils literal notranslate"><span class="pre">tuples</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="project.generator.DataGenerator.generate_data">
+<code class="sig-name descname">generate_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/project/generator.html#DataGenerator.generate_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project.generator.DataGenerator.generate_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate data including tuples and batches. This method calls
+<a class="reference internal" href="#project.generator.DataGenerator.generate_tuples" title="project.generator.DataGenerator.generate_tuples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">generate_tuples()</span></code></a> and <a class="reference internal" href="#project.generator.DataGenerator.generate_batches" title="project.generator.DataGenerator.generate_batches"><code class="xref py py-meth docutils literal notranslate"><span class="pre">generate_batches()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="project.generator.DataGenerator.generate_items">
+<code class="sig-name descname">generate_items</code><span class="sig-paren">(</span><em class="sig-param">file_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/project/generator.html#DataGenerator.generate_items"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project.generator.DataGenerator.generate_items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read uploaded <em>txt</em>-file. Accept only one file each time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>file_name</strong> (<a class="reference external" href="http://werkzeug.palletsprojects.com/en/1.0.x/datastructures/#werkzeug.datastructures.FileStorage">FileStorage</a> or <a class="reference external" href="https://docs.python.org/3/library/io.html#io.BufferedReader">io.BufferedReader</a>) – uploaded file</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>update list of items with this file (attribute <a class="reference internal" href="#project.generator.DataGenerator.items" title="project.generator.DataGenerator.items"><code class="xref py py-attr docutils literal notranslate"><span class="pre">items</span></code></a>).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="project.generator.DataGenerator.generate_tuples">
+<code class="sig-name descname">generate_tuples</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/project/generator.html#DataGenerator.generate_tuples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project.generator.DataGenerator.generate_tuples" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate tuples, this is a reimplementation of <cite>generate-BWS-tuples.pl</cite>
+in <a class="reference external" href="https://saifmohammad.com/WebDocs/Best-Worst-Scaling-Scripts.zip">source code</a>.</p>
+<p>The tuples are generated by random sampling and satisfy the following
+criteria:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>no two items within a tuple are identical;</p></li>
+<li><p>each item in the item list appears approximately in the same number of tuples;</p></li>
+<li><p>each pair of items appears approximately in the same number of tuples.</p></li>
+</ol>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>update list of all unique generated tuples with the best results
+after all (attribute <a class="reference internal" href="#project.generator.DataGenerator.tuples" title="project.generator.DataGenerator.tuples"><code class="xref py py-attr docutils literal notranslate"><span class="pre">tuples</span></code></a>).</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if the number of <a class="reference internal" href="#project.generator.DataGenerator.items" title="project.generator.DataGenerator.items"><code class="xref py py-attr docutils literal notranslate"><span class="pre">items</span></code></a> is fewer than <a class="reference internal" href="#project.generator.DataGenerator.tuple_size" title="project.generator.DataGenerator.tuple_size"><code class="xref py py-attr docutils literal notranslate"><span class="pre">tuple_size</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="project.generator.ScoreGenerator">
+<em class="property">class </em><code class="sig-prename descclassname">project.generator.</code><code class="sig-name descname">ScoreGenerator</code><span class="sig-paren">(</span><em class="sig-param">tuples</em>, <em class="sig-param">best</em>, <em class="sig-param">worst</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/project/generator.html#ScoreGenerator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project.generator.ScoreGenerator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an object to calculate the scores of given items based on annotations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tuples</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a>) – list of tuples</p></li>
+<li><p><strong>best</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a>) – list of items annotated as ‘<strong>best</strong>’</p></li>
+<li><p><strong>worst</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a>) – list of items annotated as ‘<strong>worst</strong>’</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="attribute">
+<dt id="project.generator.ScoreGenerator.frequencies">
+<code class="sig-name descname">frequencies</code><a class="headerlink" href="#project.generator.ScoreGenerator.frequencies" title="Permalink to this definition">¶</a></dt>
+<dd><p>frequency of each item in all tuples</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a> or <a class="reference external" href="https://docs.python.org/3/library/collections.html#collections.Counter" title="(in Python v3.8)">collections.Counter</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="project.generator.ScoreGenerator.best">
+<code class="sig-name descname">best</code><a class="headerlink" href="#project.generator.ScoreGenerator.best" title="Permalink to this definition">¶</a></dt>
+<dd><p>frequency of each item annotated as ‘<strong>best</strong>’</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a> or <a class="reference external" href="https://docs.python.org/3/library/collections.html#collections.Counter" title="(in Python v3.8)">collections.Counter</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="project.generator.ScoreGenerator.worst">
+<code class="sig-name descname">worst</code><a class="headerlink" href="#project.generator.ScoreGenerator.worst" title="Permalink to this definition">¶</a></dt>
+<dd><p>frequency of each item annotated as ‘<strong>worst</strong>’</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a> or <a class="reference external" href="https://docs.python.org/3/library/collections.html#collections.Counter" title="(in Python v3.8)">collections.Counter</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tuples</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="s1">&#39;B&#39;</span><span class="p">,</span><span class="s1">&#39;C&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span><span class="s1">&#39;C&#39;</span><span class="p">,</span><span class="s1">&#39;D&#39;</span><span class="p">),(</span><span class="s1">&#39;D&#39;</span><span class="p">,</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="s1">&#39;C&#39;</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">best</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="s1">&#39;B&#39;</span><span class="p">,</span><span class="s1">&#39;A&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">worst</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">,</span><span class="s1">&#39;D&#39;</span><span class="p">,</span><span class="s1">&#39;C&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">generator</span> <span class="o">=</span> <span class="n">ScoreGenerator</span><span class="p">(</span><span class="n">tuples</span><span class="p">,</span> <span class="n">best</span><span class="p">,</span> <span class="n">worst</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">generator</span><span class="o">.</span><span class="n">scoring</span><span class="p">()</span>
+<span class="go">[(&#39;A&#39;, 1.0), (&#39;B&#39;, 0.0), (&#39;C&#39;, -0.3333333333333333), (&#39;D&#39;, -0.5)]</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="project.generator.ScoreGenerator.scoring">
+<code class="sig-name descname">scoring</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/project/generator.html#ScoreGenerator.scoring"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project.generator.ScoreGenerator.scoring" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate scores of the items using formula of <a class="reference external" href="https://www.sawtoothsoftware.com/download/techpap/indivmaxdiff.pdf">Orme 2009</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>descendingly sorted list of tuples <code class="docutils literal notranslate"><span class="pre">(item,</span> <span class="pre">score)</span></code>
+based on scores</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a>(<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)">tuple</a>(<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a>))</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<p>More about research with <a class="reference external" href="https://saifmohammad.com/WebDocs/">Best-Worst-Scaling</a></p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Web Interface for Best-Worst-Scaling</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../config.html">Configurations</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="project.html">Web Application</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="validators.html">Validators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="annotator_rst/annotator.html">Annotator Subsystem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_rst/user.html">User Subsystem</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../templates.html">Templates</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="project.html">Web Application</a><ul>
+      <li>Previous: <a href="project.html" title="previous chapter">Web Application</a></li>
+      <li>Next: <a href="models.html" title="next chapter">Models</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/project_rst/generator.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, D. Nguyen, M. Charniuk, S. Safdel.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/project_rst/generator.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

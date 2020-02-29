@@ -1,0 +1,241 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Helper Functions &#8212; Web Interface for Best-Worst-Scaling 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Routes Management" href="routes.html" />
+    <link rel="prev" title="Forms" href="forms.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <span class="target" id="module-project.user.helpers"></span><div class="section" id="helper-functions">
+<h1>Helper Functions<a class="headerlink" href="#helper-functions" title="Permalink to this headline">¶</a></h1>
+<p><em>Module</em> <code class="docutils literal notranslate"><span class="pre">project.user.helpers</span></code></p>
+<p>This module provides some helper functions to deal with problems
+of each subroute inside User-System.</p>
+<dl class="function">
+<dt id="project.user.helpers.convert_into_seconds">
+<code class="sig-prename descclassname">project.user.helpers.</code><code class="sig-name descname">convert_into_seconds</code><span class="sig-paren">(</span><em class="sig-param">duration</em>, <em class="sig-param">unit</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/project/user/helpers.html#convert_into_seconds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project.user.helpers.convert_into_seconds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert given duration and unit into seconds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>duration</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – duration</p></li>
+<li><p><strong>unit</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – acronym for duration unit,
+use: <code class="docutils literal notranslate"><span class="pre">m</span></code> - <em>month</em>, <code class="docutils literal notranslate"><span class="pre">d</span></code> - <em>day</em>, <code class="docutils literal notranslate"><span class="pre">h</span></code> - <em>hour</em>, <code class="docutils literal notranslate"><span class="pre">min</span></code> - <em>minute</em></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>converted duration in seconds</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">convert_into_seconds</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;m&#39;</span><span class="p">)</span> <span class="c1"># month</span>
+<span class="go">5184000</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">convert_into_seconds</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">)</span> <span class="c1"># day</span>
+<span class="go">172800</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">convert_into_seconds</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;h&#39;</span><span class="p">)</span> <span class="c1"># hour</span>
+<span class="go">7200</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">convert_into_seconds</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;min&#39;</span><span class="p">)</span> <span class="c1"># minute</span>
+<span class="go">120</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="project.user.helpers.generate_keyword">
+<code class="sig-prename descclassname">project.user.helpers.</code><code class="sig-name descname">generate_keyword</code><span class="sig-paren">(</span><em class="sig-param">chars=None</em>, <em class="sig-param">k_length=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/project/user/helpers.html#generate_keyword"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project.user.helpers.generate_keyword" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate keyword for annotators and batches.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>chars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – type of characters used to generate keyword,
+<em>default:</em> <code class="docutils literal notranslate"><span class="pre">string.ascii_letters+string.digits</span></code></p></li>
+<li><p><strong>k_length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – length of the keyword, <em>default:</em> <code class="docutils literal notranslate"><span class="pre">random.randint(8,12)</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>generated keyword</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">generate_keyword</span><span class="p">()</span>
+<span class="go">&#39;WfgdmWPZ7fx&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">generate_keyword</span><span class="p">(</span><span class="n">chars</span><span class="o">=</span><span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">)</span>
+<span class="go">&#39;15151644097&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">generate_keyword</span><span class="p">(</span><span class="n">chars</span><span class="o">=</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_letters</span><span class="p">,</span> <span class="n">k_length</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">&#39;RIF&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="project.user.helpers.is_not_current_user">
+<code class="sig-prename descclassname">project.user.helpers.</code><code class="sig-name descname">is_not_current_user</code><span class="sig-paren">(</span><em class="sig-param">user</em>, <em class="sig-param">current_name</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/project/user/helpers.html#is_not_current_user"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project.user.helpers.is_not_current_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inside the User-System, if a user is logged in and authenticated,
+this user is not allowed to see profile of an another user by typing the route!
+If this meets the conditions which means the current user tries to access to
+the account of an another user, this current user will be redirected to the login page
+and asked to log in with the used username.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user</strong> (<a class="reference external" href="https://werkzeug.palletsprojects.com/en/1.0.x/local/#werkzeug.local.LocalProxy">werkzeug.LocalProxy</a>) – this is actually
+the attribute <a class="reference external" href="https://flask-login.readthedocs.io/en/latest/#flask_login.current_user">current_user</a></p></li>
+<li><p><strong>current_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – name of the other user to be typed in the route</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if this is not the current user else <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="project.user.helpers.upload_file">
+<code class="sig-prename descclassname">project.user.helpers.</code><code class="sig-name descname">upload_file</code><span class="sig-paren">(</span><em class="sig-param">files</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/project/user/helpers.html#upload_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project.user.helpers.upload_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upload all files and store in container for later use.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>files</strong> (list(<a class="reference external" href="http://werkzeug.palletsprojects.com/en/1.0.x/datastructures/#werkzeug.datastructures.FileStorage">FileStorage</a>)) – list of uploaded files</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>object that contains list of items, batches and tuples
+if the number of items meeth the required condition</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../generator.html#project.generator.DataGenerator" title="project.generator.DataGenerator">generator.DataGenerator</a></p>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<ul class="simple">
+<li><p>Returns 1 if there are items but the number is fewer than 5.</p></li>
+<li><p>Returns None if there is no item at all.</p></li>
+</ul>
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Web Interface for Best-Worst-Scaling</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../config.html">Configurations</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../project.html">Web Application</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../generator.html">Generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../validators.html">Validators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../annotator_rst/annotator.html">Annotator Subsystem</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="user.html">User Subsystem</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="forms.html">Forms</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Helper Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="routes.html">Routes Management</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../templates.html">Templates</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../project.html">Web Application</a><ul>
+  <li><a href="user.html">User Subsystem</a><ul>
+      <li>Previous: <a href="forms.html" title="previous chapter">Forms</a></li>
+      <li>Next: <a href="routes.html" title="next chapter">Routes Management</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/project_rst/user_rst/helpers.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, D. Nguyen, M. Charniuk, S. Safdel.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../_sources/project_rst/user_rst/helpers.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

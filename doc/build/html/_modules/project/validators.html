@@ -1,0 +1,215 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>project.validators &#8212; Web Interface for Best-Worst-Scaling 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for project.validators</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">*Module* ``project.validators``</span>
+
+<span class="sd">This module provides validators for all forms used within all systems.</span>
+
+<span class="sd">	* Call the classes the same way with classes in Module :val:`wtforms.validators &lt;&gt;`.</span>
+<span class="sd">	* Use functions mostly inside overwritten :form:`validate() &lt;wtforms.form.Form.validate&gt;`</span>
+<span class="sd">	  or :form:`validate_&lt;fieldname&gt;() &lt;wtforms.form.Form.validate&gt;`.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">wtforms.validators</span> <span class="k">import</span> <span class="n">ValidationError</span>
+
+<div class="viewcode-block" id="Unique"><a class="viewcode-back" href="../../project_rst/validators.html#project.validators.Unique">[docs]</a><span class="k">class</span> <span class="nc">Unique</span><span class="p">:</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Check if input data is unique.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		model (:db:`db.Model &lt;flask_sqlalchemy.SQLAlchemy&gt;`): table of database as model</span>
+<span class="sd">		field (:db:`db.Column &lt;flask_sqlalchemy.SQLAlchemy&gt;`): attribute inside the table used</span>
+<span class="sd">		message (str): message if this validator fails</span>
+
+<span class="sd">	:Raises:</span>
+<span class="sd">		:val:`ValidationError &lt;wtforms.validators.ValidationError&gt;` if input data is not unique.</span>
+
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="sa">u</span><span class="s1">&#39;This element already exists.&#39;</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">field</span> <span class="o">=</span> <span class="n">field</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span>
+
+	<span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form</span><span class="p">,</span> <span class="n">field</span><span class="p">):</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">field</span> <span class="o">==</span> <span class="n">field</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">():</span>
+			<span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="InputValid"><a class="viewcode-back" href="../../project_rst/validators.html#project.validators.InputValid">[docs]</a><span class="k">class</span> <span class="nc">InputValid</span><span class="p">:</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Make sure input data is valid.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		model (:db:`db.Model &lt;flask_sqlalchemy.SQLAlchemy&gt;`): table of database as model</span>
+<span class="sd">		field (:db:`db.Column &lt;flask_sqlalchemy.SQLAlchemy&gt;`): attribute inside the table used</span>
+<span class="sd">		message (str): message if this validator fails</span>
+
+<span class="sd">	:Raises:</span>
+<span class="sd">		:val:`ValidationError &lt;wtforms.validators.ValidationError&gt;` if input data is invalid.</span>
+
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="sa">u</span><span class="s1">&#39;Invalid object&#39;</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">field</span> <span class="o">=</span> <span class="n">field</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span>
+
+	<span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form</span><span class="p">,</span> <span class="n">field</span><span class="p">):</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">field</span><span class="o">==</span><span class="n">field</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">():</span>
+			<span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="NotEqualTo"><a class="viewcode-back" href="../../project_rst/validators.html#project.validators.NotEqualTo">[docs]</a><span class="k">class</span> <span class="nc">NotEqualTo</span><span class="p">:</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Use the same structure like default class :val:`EqualTo &lt;built-in-validators&gt;`.</span>
+
+<span class="sd">	Make sure 2 fields are not the same.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		other_fieldname (:db:`db.Column &lt;flask_sqlalchemy.SQLAlchemy&gt;`): an another </span>
+<span class="sd">														attribute of the table used</span>
+<span class="sd">		message (str): message if this validator fails</span>
+
+<span class="sd">	:Raises:</span>
+<span class="sd">		:val:`ValidationError &lt;wtforms.validators.ValidationError&gt;` if this validator fails.	</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_fieldname</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">other</span> <span class="o">=</span> <span class="n">other_fieldname</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span>
+
+	<span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form</span><span class="p">,</span> <span class="n">field</span><span class="p">):</span>
+		<span class="k">try</span><span class="p">:</span>
+			<span class="n">other</span> <span class="o">=</span> <span class="n">form</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">other</span><span class="p">]</span>
+		<span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">gettext</span><span class="p">(</span><span class="s1">&#39;Invalid field name &quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span> <span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">other</span><span class="p">))</span>
+
+		<span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
+			<span class="n">field</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+			<span class="n">other</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+		<span class="k">if</span> <span class="n">field</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+			<span class="n">d</span> <span class="o">=</span> <span class="p">{</span>
+				<span class="s1">&#39;other_label&#39;</span><span class="p">:</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">text</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">other</span><span class="p">,</span>
+				<span class="s1">&#39;other_name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">other</span>
+			<span class="p">}</span>
+			<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">gettext</span><span class="p">(</span><span class="s1">&#39;Field is not allowed to be equal to </span><span class="si">%(other_name)s</span><span class="s1">&#39;</span><span class="p">)</span>
+			<span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">%</span> <span class="n">d</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="allowed_file"><a class="viewcode-back" href="../../project_rst/validators.html#project.validators.allowed_file">[docs]</a><span class="k">def</span> <span class="nf">allowed_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">allowed</span><span class="o">=</span><span class="nb">set</span><span class="p">([</span><span class="s1">&#39;txt&#39;</span><span class="p">])):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Check if uploaded file(s) have/has the right extension.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		filename (str): name of the uploaded file</span>
+<span class="sd">		allowed (set): list of allowed extensions, *default:* ``{&#39;txt&#39;}``</span>
+
+<span class="sd">	Returns: </span>
+<span class="sd">		bool: ``True`` if this file is an allowed file, else ``False``.</span>
+
+<span class="sd">	Examples:</span>
+<span class="sd">		&gt;&gt;&gt; allowed_file(&#39;example.txt&#39;)</span>
+<span class="sd">		True</span>
+<span class="sd">		&gt;&gt;&gt; allowed_file(&#39;example.csv&#39;)</span>
+<span class="sd">		False</span>
+<span class="sd">		&gt;&gt;&gt; allowed_file(&#39;example.csv&#39;, allowed=set([&#39;csv&#39;]))</span>
+<span class="sd">		True</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">return</span> <span class="s1">&#39;.&#39;</span> <span class="ow">in</span> <span class="n">filename</span> <span class="ow">and</span> <span class="n">filename</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">allowed</span></div>
+	
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Web Interface for Best-Worst-Scaling</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../config.html">Configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../project_rst/project.html">Web Application</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../templates.html">Templates</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, D. Nguyen, M. Charniuk, S. Safdel.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

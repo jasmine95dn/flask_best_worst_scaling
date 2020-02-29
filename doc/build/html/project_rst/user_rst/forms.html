@@ -1,0 +1,417 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Forms &#8212; Web Interface for Best-Worst-Scaling 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Helper Functions" href="helpers.html" />
+    <link rel="prev" title="User Subsystem" href="user.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <span class="target" id="module-project.user.forms"></span><div class="section" id="forms">
+<h1>Forms<a class="headerlink" href="#forms" title="Permalink to this headline">¶</a></h1>
+<p><em>Module</em> <code class="docutils literal notranslate"><span class="pre">project.user.forms</span></code></p>
+<p>This module defines forms used inside User-System.</p>
+<dl class="class">
+<dt id="project.user.forms.LoginForm">
+<em class="property">class </em><code class="sig-prename descclassname">project.user.forms.</code><code class="sig-name descname">LoginForm</code><span class="sig-paren">(</span><em class="sig-param">formdata=&lt;object object&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/project/user/forms.html#LoginForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project.user.forms.LoginForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extend <a class="reference external" href="https://flask-wtf.readthedocs.io/en/stable/api.html#flask_wtf.FlaskForm">FlaskForm</a>. Define login form.</p>
+<dl class="attribute">
+<dt id="project.user.forms.LoginForm.username">
+<code class="sig-name descname">username</code><a class="headerlink" href="#project.user.forms.LoginForm.username" title="Permalink to this definition">¶</a></dt>
+<dd><p>username</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://wtforms.readthedocs.io/en/latest/fields.html#wtforms.fields.StringField">StringField</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="project.user.forms.LoginForm.password">
+<code class="sig-name descname">password</code><a class="headerlink" href="#project.user.forms.LoginForm.password" title="Permalink to this definition">¶</a></dt>
+<dd><p>password of user</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://wtforms.readthedocs.io/en/latest/fields.html#wtforms.fields.PasswordField">PasswordField</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="project.user.forms.LoginForm.remember">
+<code class="sig-name descname">remember</code><a class="headerlink" href="#project.user.forms.LoginForm.remember" title="Permalink to this definition">¶</a></dt>
+<dd><p>whether to remember
+data of this account</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://wtforms.readthedocs.io/en/latest/fields.html#wtforms.fields.BooleanField">BooleanField</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="project.user.forms.LoginForm.validate">
+<code class="sig-name descname">validate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/project/user/forms.html#LoginForm.validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project.user.forms.LoginForm.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Override <a class="reference external" href="https://wtforms.readthedocs.io/en/latest/forms.html#wtforms.form.Form.validate">validate()</a>.</p>
+<p>Check if given password is valid with given valid username.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="project.user.forms.ProjectInformationForm">
+<em class="property">class </em><code class="sig-prename descclassname">project.user.forms.</code><code class="sig-name descname">ProjectInformationForm</code><span class="sig-paren">(</span><em class="sig-param">formdata=&lt;object object&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/project/user/forms.html#ProjectInformationForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project.user.forms.ProjectInformationForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extend <a class="reference external" href="https://flask-wtf.readthedocs.io/en/stable/api.html#flask_wtf.FlaskForm">FlaskForm</a>. Define form to upload a project.</p>
+<dl class="attribute">
+<dt id="project.user.forms.ProjectInformationForm.upload">
+<code class="sig-name descname">upload</code><a class="headerlink" href="#project.user.forms.ProjectInformationForm.upload" title="Permalink to this definition">¶</a></dt>
+<dd><p>files of items</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://wtforms.readthedocs.io/en/latest/fields.html#wtforms.fields.MultipleFileField">MultipleFileField</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="project.user.forms.ProjectInformationForm.name">
+<code class="sig-name descname">name</code><a class="headerlink" href="#project.user.forms.ProjectInformationForm.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>project name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://wtforms.readthedocs.io/en/latest/fields.html#wtforms.fields.StringField">StringField</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="project.user.forms.ProjectInformationForm.description">
+<code class="sig-name descname">description</code><a class="headerlink" href="#project.user.forms.ProjectInformationForm.description" title="Permalink to this definition">¶</a></dt>
+<dd><p>project description</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://wtforms.readthedocs.io/en/latest/fields.html#wtforms.fields.TextAreaField">TextAreaField</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="project.user.forms.ProjectInformationForm.anno_number">
+<code class="sig-name descname">anno_number</code><a class="headerlink" href="#project.user.forms.ProjectInformationForm.anno_number" title="Permalink to this definition">¶</a></dt>
+<dd><p>number of expected annotators
+for this project</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://wtforms.readthedocs.io/en/latest/fields.html#wtforms.fields.IntegerField">IntegerField</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="project.user.forms.ProjectInformationForm.best_def">
+<code class="sig-name descname">best_def</code><a class="headerlink" href="#project.user.forms.ProjectInformationForm.best_def" title="Permalink to this definition">¶</a></dt>
+<dd><p>Definition of ‘<strong>best</strong>’
+in this project</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://wtforms.readthedocs.io/en/latest/fields.html#wtforms.fields.StringField">StringField</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="project.user.forms.ProjectInformationForm.worst_def">
+<code class="sig-name descname">worst_def</code><a class="headerlink" href="#project.user.forms.ProjectInformationForm.worst_def" title="Permalink to this definition">¶</a></dt>
+<dd><p>Definition of ‘<strong>worst</strong>’
+in this project</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://wtforms.readthedocs.io/en/latest/fields.html#wtforms.fields.StringField">StringField</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="project.user.forms.ProjectInformationForm.mturk">
+<code class="sig-name descname">mturk</code><a class="headerlink" href="#project.user.forms.ProjectInformationForm.mturk" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether to upload this project
+on Mechanical Turk</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://wtforms.readthedocs.io/en/latest/fields.html#wtforms.fields.BooleanField">BooleanField</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="project.user.forms.ProjectInformationForm.aws_access_key_id">
+<code class="sig-name descname">aws_access_key_id</code><a class="headerlink" href="#project.user.forms.ProjectInformationForm.aws_access_key_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>IAM AWS access key id,
+<em>only provide if set</em> <a class="reference internal" href="#project.user.forms.ProjectInformationForm.mturk" title="project.user.forms.ProjectInformationForm.mturk"><code class="xref py py-attr docutils literal notranslate"><span class="pre">mturk</span></code></a> == <code class="docutils literal notranslate"><span class="pre">True</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://wtforms.readthedocs.io/en/latest/fields.html#wtforms.fields.StringField">StringField</a>, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="project.user.forms.ProjectInformationForm.aws_secret_access_key">
+<code class="sig-name descname">aws_secret_access_key</code><a class="headerlink" href="#project.user.forms.ProjectInformationForm.aws_secret_access_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>IAM AWS secret access key,
+<em>only provide if set</em> <a class="reference internal" href="#project.user.forms.ProjectInformationForm.mturk" title="project.user.forms.ProjectInformationForm.mturk"><code class="xref py py-attr docutils literal notranslate"><span class="pre">mturk</span></code></a> == <code class="docutils literal notranslate"><span class="pre">True</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://wtforms.readthedocs.io/en/latest/fields.html#wtforms.fields.StringField">StringField</a>, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="project.user.forms.ProjectInformationForm.keywords">
+<code class="sig-name descname">keywords</code><a class="headerlink" href="#project.user.forms.ProjectInformationForm.keywords" title="Permalink to this definition">¶</a></dt>
+<dd><p>keywords to describe the project
+on Mechanical Turk, <em>default:</em> <code class="docutils literal notranslate"><span class="pre">e.g.</span> <span class="pre">quick,</span> <span class="pre">sentiment,</span> <span class="pre">labeling</span></code>,
+<em>only provide if set</em> <a class="reference internal" href="#project.user.forms.ProjectInformationForm.mturk" title="project.user.forms.ProjectInformationForm.mturk"><code class="xref py py-attr docutils literal notranslate"><span class="pre">mturk</span></code></a> == <code class="docutils literal notranslate"><span class="pre">True</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://wtforms.readthedocs.io/en/latest/fields.html#wtforms.fields.StringField">StringField</a>, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="project.user.forms.ProjectInformationForm.reward">
+<code class="sig-name descname">reward</code><a class="headerlink" href="#project.user.forms.ProjectInformationForm.reward" title="Permalink to this definition">¶</a></dt>
+<dd><p>reward for an annotator/turker
+to annotate a HIT, <em>default:</em> <code class="docutils literal notranslate"><span class="pre">0.15</span></code>,
+<em>only provide if set</em> <a class="reference internal" href="#project.user.forms.ProjectInformationForm.mturk" title="project.user.forms.ProjectInformationForm.mturk"><code class="xref py py-attr docutils literal notranslate"><span class="pre">mturk</span></code></a> == <code class="docutils literal notranslate"><span class="pre">True</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://wtforms.readthedocs.io/en/latest/fields.html#wtforms.fields.StringField">StringField</a>, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="project.user.forms.ProjectInformationForm.lifetime">
+<code class="sig-name descname">lifetime</code><a class="headerlink" href="#project.user.forms.ProjectInformationForm.lifetime" title="Permalink to this definition">¶</a></dt>
+<dd><p>duration of the project
+to be availabe on Mechanical Turk, <em>default:</em> <code class="docutils literal notranslate"><span class="pre">1</span></code>,
+<em>only provide if set</em> <a class="reference internal" href="#project.user.forms.ProjectInformationForm.mturk" title="project.user.forms.ProjectInformationForm.mturk"><code class="xref py py-attr docutils literal notranslate"><span class="pre">mturk</span></code></a> == <code class="docutils literal notranslate"><span class="pre">True</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://wtforms.readthedocs.io/en/latest/fields.html#wtforms.fields.IntegerField">IntegerField</a>, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="project.user.forms.ProjectInformationForm.lifetimeunit">
+<code class="sig-name descname">lifetimeunit</code><a class="headerlink" href="#project.user.forms.ProjectInformationForm.lifetimeunit" title="Permalink to this definition">¶</a></dt>
+<dd><p>duration unit for <a class="reference internal" href="#project.user.forms.ProjectInformationForm.lifetime" title="project.user.forms.ProjectInformationForm.lifetime"><code class="xref py py-attr docutils literal notranslate"><span class="pre">lifetime</span></code></a>,
+<em>default:</em> <code class="docutils literal notranslate"><span class="pre">month</span></code>,
+<em>only provide if set</em> <a class="reference internal" href="#project.user.forms.ProjectInformationForm.mturk" title="project.user.forms.ProjectInformationForm.mturk"><code class="xref py py-attr docutils literal notranslate"><span class="pre">mturk</span></code></a> == <code class="docutils literal notranslate"><span class="pre">True</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://wtforms.readthedocs.io/en/latest/fields.html#wtforms.fields.SelectField">SelectField</a>, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="project.user.forms.ProjectInformationForm.hit_duration">
+<code class="sig-name descname">hit_duration</code><a class="headerlink" href="#project.user.forms.ProjectInformationForm.hit_duration" title="Permalink to this definition">¶</a></dt>
+<dd><p>duration of a HIT annotation
+for each annotator, <em>default:</em> <code class="docutils literal notranslate"><span class="pre">1</span></code>,
+<em>only provide if set</em> <a class="reference internal" href="#project.user.forms.ProjectInformationForm.mturk" title="project.user.forms.ProjectInformationForm.mturk"><code class="xref py py-attr docutils literal notranslate"><span class="pre">mturk</span></code></a> == <code class="docutils literal notranslate"><span class="pre">True</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://wtforms.readthedocs.io/en/latest/fields.html#wtforms.fields.IntegerField">IntegerField</a>, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="project.user.forms.ProjectInformationForm.duration_unit">
+<code class="sig-name descname">duration_unit</code><a class="headerlink" href="#project.user.forms.ProjectInformationForm.duration_unit" title="Permalink to this definition">¶</a></dt>
+<dd><p>duration unit for <a class="reference internal" href="#project.user.forms.ProjectInformationForm.hit_duration" title="project.user.forms.ProjectInformationForm.hit_duration"><code class="xref py py-attr docutils literal notranslate"><span class="pre">hit_duration</span></code></a>,
+<em>default:</em> <code class="docutils literal notranslate"><span class="pre">month</span></code>,
+<em>only provide if set</em> <a class="reference internal" href="#project.user.forms.ProjectInformationForm.mturk" title="project.user.forms.ProjectInformationForm.mturk"><code class="xref py py-attr docutils literal notranslate"><span class="pre">mturk</span></code></a> == <code class="docutils literal notranslate"><span class="pre">True</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://wtforms.readthedocs.io/en/latest/fields.html#wtforms.fields.SelectField">SelectField</a>, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="project.user.forms.ProjectInformationForm.validate_upload">
+<code class="sig-name descname">validate_upload</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/project/user/forms.html#ProjectInformationForm.validate_upload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project.user.forms.ProjectInformationForm.validate_upload" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate uploaded files <a class="reference internal" href="#project.user.forms.ProjectInformationForm.upload" title="project.user.forms.ProjectInformationForm.upload"><code class="xref py py-attr docutils literal notranslate"><span class="pre">upload</span></code></a>.</p>
+<p>Check if uploaded file(s) has/have one of the allowed extensions (<em>default:</em> <code class="docutils literal notranslate"><span class="pre">{'txt'}</span></code>).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="project.user.forms.RegisterForm">
+<em class="property">class </em><code class="sig-prename descclassname">project.user.forms.</code><code class="sig-name descname">RegisterForm</code><span class="sig-paren">(</span><em class="sig-param">formdata=&lt;object object&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/project/user/forms.html#RegisterForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project.user.forms.RegisterForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extend <a class="reference external" href="https://flask-wtf.readthedocs.io/en/stable/api.html#flask_wtf.FlaskForm">FlaskForm</a>. Define registration form.</p>
+<dl class="attribute">
+<dt id="project.user.forms.RegisterForm.username">
+<code class="sig-name descname">username</code><a class="headerlink" href="#project.user.forms.RegisterForm.username" title="Permalink to this definition">¶</a></dt>
+<dd><p>username</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://wtforms.readthedocs.io/en/latest/fields.html#wtforms.fields.StringField">StringField</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="project.user.forms.RegisterForm.email">
+<code class="sig-name descname">email</code><a class="headerlink" href="#project.user.forms.RegisterForm.email" title="Permalink to this definition">¶</a></dt>
+<dd><p>user email</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://wtforms.readthedocs.io/en/latest/fields.html#wtforms.fields.StringField">StringField</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="project.user.forms.RegisterForm.password">
+<code class="sig-name descname">password</code><a class="headerlink" href="#project.user.forms.RegisterForm.password" title="Permalink to this definition">¶</a></dt>
+<dd><p>user password</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://wtforms.readthedocs.io/en/latest/fields.html#wtforms.fields.PasswordField">PasswordField</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="project.user.forms.RegisterForm.validate_username">
+<code class="sig-name descname">validate_username</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/project/user/forms.html#RegisterForm.validate_username"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project.user.forms.RegisterForm.validate_username" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate <a class="reference internal" href="#project.user.forms.RegisterForm.username" title="project.user.forms.RegisterForm.username"><code class="xref py py-attr docutils literal notranslate"><span class="pre">username</span></code></a>.</p>
+<p>Username is not allowed to have space or special character.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Web Interface for Best-Worst-Scaling</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../config.html">Configurations</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../project.html">Web Application</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../generator.html">Generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../validators.html">Validators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../annotator_rst/annotator.html">Annotator Subsystem</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="user.html">User Subsystem</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Forms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="helpers.html">Helper Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="routes.html">Routes Management</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../templates.html">Templates</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../project.html">Web Application</a><ul>
+  <li><a href="user.html">User Subsystem</a><ul>
+      <li>Previous: <a href="user.html" title="previous chapter">User Subsystem</a></li>
+      <li>Next: <a href="helpers.html" title="next chapter">Helper Functions</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/project_rst/user_rst/forms.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, D. Nguyen, M. Charniuk, S. Safdel.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../_sources/project_rst/user_rst/forms.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

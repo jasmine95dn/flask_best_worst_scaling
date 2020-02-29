@@ -1,0 +1,230 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Routes Management &#8212; Web Interface for Best-Worst-Scaling 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="User Subsystem" href="../user_rst/user.html" />
+    <link rel="prev" title="Helper Functions" href="helpers.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-project.annotator.account">
+<span id="routes-management"></span><h1>Routes Management<a class="headerlink" href="#module-project.annotator.account" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="accounts">
+<h2>Accounts<a class="headerlink" href="#accounts" title="Permalink to this headline">¶</a></h2>
+<p><em>Module</em> <code class="docutils literal notranslate"><span class="pre">project.annotator.account</span></code></p>
+<p>This module defines routes to manage accounts of annotators.</p>
+<dl class="function">
+<dt id="project.annotator.account.login">
+<code class="sig-prename descclassname">project.annotator.account.</code><code class="sig-name descname">login</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/project/annotator/account.html#login"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project.annotator.account.login" title="Permalink to this definition">¶</a></dt>
+<dd><p>Manage account login with keyword and (pseudo)name inside annotator system at <code class="docutils literal notranslate"><span class="pre">/annotator</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>project site <code class="docutils literal notranslate"><span class="pre">/annotator/&lt;p_name&gt;</span></code> if account is valid.</p>
+</dd>
+</dl>
+<div class="admonition error">
+<p class="admonition-title">Error</p>
+<p>Error message emerges if keyword or name is invalid.</p>
+</div>
+</dd></dl>
+
+</div>
+<span class="target" id="module-project.annotator.annotation"></span><div class="section" id="annotations">
+<h2>Annotations<a class="headerlink" href="#annotations" title="Permalink to this headline">¶</a></h2>
+<p><em>Module</em> <code class="docutils literal notranslate"><span class="pre">project.annotator.annotation</span></code></p>
+<p>This module defines routes to manage the annotations.</p>
+<dl class="function">
+<dt id="project.annotator.annotation.batch">
+<code class="sig-prename descclassname">project.annotator.annotation.</code><code class="sig-name descname">batch</code><span class="sig-paren">(</span><em class="sig-param">p_name</em>, <em class="sig-param">batch_id</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/project/annotator/annotation.html#batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project.annotator.annotation.batch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represent a batch within the project in the local system for an annotator
+to annotate at <code class="docutils literal notranslate"><span class="pre">/annotator/&lt;p_name&gt;/batch-&lt;int:batch_id&gt;</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>p_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – name of the project</p></li>
+<li><p><strong>batch_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – id of the batch</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>project site with all batches at <code class="docutils literal notranslate"><span class="pre">/annotator/&lt;p_name&gt;</span></code>,
+if the annotation is saved or the valid annotation is submitted.</p>
+</dd>
+</dl>
+<div class="admonition error">
+<p class="admonition-title">Error</p>
+<p>Error message emerges if invalid annotation is submitted.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="project.annotator.annotation.hit">
+<code class="sig-prename descclassname">project.annotator.annotation.</code><code class="sig-name descname">hit</code><span class="sig-paren">(</span><em class="sig-param">p_name</em>, <em class="sig-param">hit_id</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/project/annotator/annotation.html#hit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project.annotator.annotation.hit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represent a HIT within the project directed from MTurk for an annotator (turker)
+to annotate at <code class="docutils literal notranslate"><span class="pre">/mturk/&lt;p_name&gt;/&lt;hit_id&gt;</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>p_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – name of the project</p></li>
+<li><p><strong>hit_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – id of the HIT</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>keyword of the HIT, if valid annotation is submitted.</p>
+</dd>
+</dl>
+<div class="admonition error">
+<p class="admonition-title">Error</p>
+<p>Error message emerges if invalid annotation is submitted.</p>
+</div>
+</dd></dl>
+
+</div>
+<span class="target" id="module-project.annotator.views"></span><div class="section" id="views">
+<h2>Views<a class="headerlink" href="#views" title="Permalink to this headline">¶</a></h2>
+<p><em>Module</em> <code class="docutils literal notranslate"><span class="pre">project.annotator.views</span></code></p>
+<p>This module defines routes to manage views for annotators.</p>
+<dl class="function">
+<dt id="project.annotator.views.project">
+<code class="sig-prename descclassname">project.annotator.views.</code><code class="sig-name descname">project</code><span class="sig-paren">(</span><em class="sig-param">p_name</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/project/annotator/views.html#project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project.annotator.views.project" title="Permalink to this definition">¶</a></dt>
+<dd><p>View project with all batches corresponding to given keyword at <code class="docutils literal notranslate"><span class="pre">/annotator/&lt;p_name&gt;</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>p_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – project name</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Status of each batch in project if they are submitted by this annotator or not.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Web Interface for Best-Worst-Scaling</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../config.html">Configurations</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../project.html">Web Application</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../generator.html">Generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../validators.html">Validators</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="annotator.html">Annotator Subsystem</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="forms.html">Forms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="helpers.html">Helper Functions</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Routes Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#accounts">Accounts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#annotations">Annotations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#views">Views</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../user_rst/user.html">User Subsystem</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../templates.html">Templates</a></li>
+</ul>
+
+
+  <h3><a href="../../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Routes Management</a><ul>
+<li><a class="reference internal" href="#accounts">Accounts</a></li>
+<li><a class="reference internal" href="#annotations">Annotations</a></li>
+<li><a class="reference internal" href="#views">Views</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../project.html">Web Application</a><ul>
+  <li><a href="annotator.html">Annotator Subsystem</a><ul>
+      <li>Previous: <a href="helpers.html" title="previous chapter">Helper Functions</a></li>
+      <li>Next: <a href="../user_rst/user.html" title="next chapter">User Subsystem</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/project_rst/annotator_rst/routes.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, D. Nguyen, M. Charniuk, S. Safdel.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../_sources/project_rst/annotator_rst/routes.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

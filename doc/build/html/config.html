@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Configurations &#8212; Web Interface for Best-Worst-Scaling 0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Web Application" href="project_rst/project.html" />
+    <link rel="prev" title="Web Interface for Best-Worst-Scaling" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-config">
+<span id="configurations"></span><h1>Configurations<a class="headerlink" href="#module-config" title="Permalink to this headline">¶</a></h1>
+<p><em>Module</em> <code class="docutils literal notranslate"><span class="pre">config</span></code></p>
+<p>This module defines different Config objects for different servers.</p>
+<dl class="class">
+<dt id="config.Config">
+<em class="property">class </em><code class="sig-prename descclassname">config.</code><code class="sig-name descname">Config</code><a class="reference internal" href="_modules/config.html#Config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#config.Config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base Configurations used for all servers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>SECRET_KEY</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – secret key of the web application</p></li>
+<li><p><strong>BASE_DIR</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – base directory of the application</p></li>
+<li><p><strong>SQLALCHEMY_TRACK_MODIFICATIONS</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – whether to track modification when using SQLAlchemy,
+<em>default:</em> <code class="docutils literal notranslate"><span class="pre">False</span></code></p></li>
+<li><p><strong>SQLALCHEMY_DATABASE_URI</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – directory of the local SQL database,
+<em>default:</em> <code class="docutils literal notranslate"><span class="pre">SQLite</span> <span class="pre">database</span></code></p></li>
+<li><p><strong>MTURK_URL</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – endpoint of Amazon Crowdsourcing Platform, <em>default:</em> <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>MTURK_SHOW_UP_URL</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – link to where the project is uploaded
+(mainly in production environment),
+<em>default:</em> <a class="reference external" href="https://requester.mturk.com/">real page</a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="method">
+<dt id="config.Config.init_app">
+<code class="sig-name descname">init_app</code><span class="sig-paren">(</span><em class="sig-param">app</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/config.html#Config.init_app"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#config.Config.init_app" title="Permalink to this definition">¶</a></dt>
+<dd><p>Application initialization</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="config.DevelopmentConfig">
+<em class="property">class </em><code class="sig-prename descclassname">config.</code><code class="sig-name descname">DevelopmentConfig</code><a class="reference internal" href="_modules/config.html#DevelopmentConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#config.DevelopmentConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extends <a class="reference internal" href="#config.Config" title="config.Config"><code class="xref py py-class docutils literal notranslate"><span class="pre">Config</span></code></a>. Configurations used during development.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>FLASK_ENV</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – environment of the application, <em>default:</em> <code class="docutils literal notranslate"><span class="pre">development</span></code></p></li>
+<li><p><strong>DEBUG</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – whether to debug during running the application, <em>default:</em> <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>SQLALCHEMY_DATABASE_URI</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – SQL database used for development</p></li>
+<li><p><strong>MTURK_URL</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – endpoint of Amazon Crowdsourcing Platform, used in Development environment,
+<em>default:</em> <a class="reference external" href="https://mturk-requester-sandbox.us-east-1.amazonaws.com">sandbox in us-east-1 region</a></p></li>
+<li><p><strong>AWS_ACCESS_KEY_ID</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – IAM AWS credentials - key id, <em>default:</em> <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>AWS_SECRET_ACCESS_KEY</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – IAM AWS credentials - secret access key, <em>default:</em> <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>MTURK_SHOW_UP_URL</strong> – link to where the project is uploaded, in development environment,
+<em>default:</em> <a class="reference external" href="https://workersandbox.mturk.com/">Sandbox</a></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="config.TestingConfig">
+<em class="property">class </em><code class="sig-prename descclassname">config.</code><code class="sig-name descname">TestingConfig</code><a class="reference internal" href="_modules/config.html#TestingConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#config.TestingConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configurations used during testing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>DEBUG</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – whether to debug during running the application, <em>default:</em> <code class="docutils literal notranslate"><span class="pre">False</span></code></p></li>
+<li><p><strong>TESTING</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – whether to set this application in testing environment, <em>default:</em> <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>SQLALCHEMY_DATABASE_URI</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – SQL database used for testing</p></li>
+<li><p><strong>WTF_CSRF_ENABLED</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – whether to enable CSRF Token for different input forms in HTML,
+<em>default:</em> <code class="docutils literal notranslate"><span class="pre">False</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="data">
+<dt id="config.config">
+<code class="sig-prename descclassname">config.</code><code class="sig-name descname">config</code><em class="property"> = {'default': &lt;class 'config.DevelopmentConfig'&gt;, 'development': &lt;class 'config.DevelopmentConfig'&gt;, 'testing': &lt;class 'config.TestingConfig'&gt;}</em><a class="headerlink" href="#config.config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Global variable for environment configurations.
+Can import this instead of configuration objects.</p>
+<dl class="simple">
+<dt>2 environments are available:</dt><dd><ul class="simple">
+<li><p>For development <code class="docutils literal notranslate"><span class="pre">config['development']</span></code></p></li>
+<li><p>For testing <code class="docutils literal notranslate"><span class="pre">config['testing']</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<p>Default, <code class="docutils literal notranslate"><span class="pre">config['default']</span></code>, is development environment.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Web Interface for Best-Worst-Scaling</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_rst/project.html">Web Application</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="templates.html">Templates</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Web Interface for <strong>Best-Worst-Scaling</strong></a></li>
+      <li>Next: <a href="project_rst/project.html" title="next chapter">Web Application</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/config.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, D. Nguyen, M. Charniuk, S. Safdel.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/config.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

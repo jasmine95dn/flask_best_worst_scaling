@@ -1,0 +1,212 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Validators &#8212; Web Interface for Best-Worst-Scaling 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Annotator Subsystem" href="annotator_rst/annotator.html" />
+    <link rel="prev" title="Models" href="models.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-project.validators">
+<span id="validators"></span><h1>Validators<a class="headerlink" href="#module-project.validators" title="Permalink to this headline">¶</a></h1>
+<p><em>Module</em> <code class="docutils literal notranslate"><span class="pre">project.validators</span></code></p>
+<p>This module provides validators for all forms used within all systems.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Call the classes the same way with classes in Module <a class="reference external" href="https://wtforms.readthedocs.io/en/latest/validators.html#">wtforms.validators</a>.</p></li>
+<li><p>Use functions mostly inside overwritten <a class="reference external" href="https://wtforms.readthedocs.io/en/latest/forms.html#wtforms.form.Form.validate">validate()</a>
+or <a class="reference external" href="https://wtforms.readthedocs.io/en/latest/forms.html#wtforms.form.Form.validate">validate_&lt;fieldname&gt;()</a>.</p></li>
+</ul>
+</div></blockquote>
+<dl class="class">
+<dt id="project.validators.InputValid">
+<em class="property">class </em><code class="sig-prename descclassname">project.validators.</code><code class="sig-name descname">InputValid</code><span class="sig-paren">(</span><em class="sig-param">model</em>, <em class="sig-param">field</em>, <em class="sig-param">message='Invalid object'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/project/validators.html#InputValid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project.validators.InputValid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make sure input data is valid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<a class="reference external" href="https://flask-sqlalchemy.palletsprojects.com/en/2.x/api/#flask_sqlalchemy.SQLAlchemy">db.Model</a>) – table of database as model</p></li>
+<li><p><strong>field</strong> (<a class="reference external" href="https://flask-sqlalchemy.palletsprojects.com/en/2.x/api/#flask_sqlalchemy.SQLAlchemy">db.Column</a>) – attribute inside the table used</p></li>
+<li><p><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – message if this validator fails</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://wtforms.readthedocs.io/en/latest/validators.html#wtforms.validators.ValidationError">ValidationError</a> if input data is invalid.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="project.validators.NotEqualTo">
+<em class="property">class </em><code class="sig-prename descclassname">project.validators.</code><code class="sig-name descname">NotEqualTo</code><span class="sig-paren">(</span><em class="sig-param">other_fieldname</em>, <em class="sig-param">message=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/project/validators.html#NotEqualTo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project.validators.NotEqualTo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use the same structure like default class <a class="reference external" href="https://wtforms.readthedocs.io/en/latest/validators.html#built-in-validators">EqualTo</a>.</p>
+<p>Make sure 2 fields are not the same.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>other_fieldname</strong> (<a class="reference external" href="https://flask-sqlalchemy.palletsprojects.com/en/2.x/api/#flask_sqlalchemy.SQLAlchemy">db.Column</a>) – an another
+attribute of the table used</p></li>
+<li><p><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – message if this validator fails</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://wtforms.readthedocs.io/en/latest/validators.html#wtforms.validators.ValidationError">ValidationError</a> if this validator fails.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="project.validators.Unique">
+<em class="property">class </em><code class="sig-prename descclassname">project.validators.</code><code class="sig-name descname">Unique</code><span class="sig-paren">(</span><em class="sig-param">model</em>, <em class="sig-param">field</em>, <em class="sig-param">message='This element already exists.'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/project/validators.html#Unique"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project.validators.Unique" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if input data is unique.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<a class="reference external" href="https://flask-sqlalchemy.palletsprojects.com/en/2.x/api/#flask_sqlalchemy.SQLAlchemy">db.Model</a>) – table of database as model</p></li>
+<li><p><strong>field</strong> (<a class="reference external" href="https://flask-sqlalchemy.palletsprojects.com/en/2.x/api/#flask_sqlalchemy.SQLAlchemy">db.Column</a>) – attribute inside the table used</p></li>
+<li><p><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – message if this validator fails</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://wtforms.readthedocs.io/en/latest/validators.html#wtforms.validators.ValidationError">ValidationError</a> if input data is not unique.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="project.validators.allowed_file">
+<code class="sig-prename descclassname">project.validators.</code><code class="sig-name descname">allowed_file</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">allowed={'txt'}</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/project/validators.html#allowed_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project.validators.allowed_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if uploaded file(s) have/has the right extension.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – name of the uploaded file</p></li>
+<li><p><strong>allowed</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#set" title="(in Python v3.8)"><em>set</em></a>) – list of allowed extensions, <em>default:</em> <code class="docutils literal notranslate"><span class="pre">{'txt'}</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if this file is an allowed file, else <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">allowed_file</span><span class="p">(</span><span class="s1">&#39;example.txt&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">allowed_file</span><span class="p">(</span><span class="s1">&#39;example.csv&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">allowed_file</span><span class="p">(</span><span class="s1">&#39;example.csv&#39;</span><span class="p">,</span> <span class="n">allowed</span><span class="o">=</span><span class="nb">set</span><span class="p">([</span><span class="s1">&#39;csv&#39;</span><span class="p">]))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Web Interface for Best-Worst-Scaling</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../config.html">Configurations</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="project.html">Web Application</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="generator.html">Generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html">Models</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Validators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="annotator_rst/annotator.html">Annotator Subsystem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_rst/user.html">User Subsystem</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../templates.html">Templates</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="project.html">Web Application</a><ul>
+      <li>Previous: <a href="models.html" title="previous chapter">Models</a></li>
+      <li>Next: <a href="annotator_rst/annotator.html" title="next chapter">Annotator Subsystem</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/project_rst/validators.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, D. Nguyen, M. Charniuk, S. Safdel.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/project_rst/validators.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

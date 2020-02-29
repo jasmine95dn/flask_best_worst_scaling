@@ -1,0 +1,470 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>project.generator &#8212; Web Interface for Best-Worst-Scaling 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for project.generator</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">*Module* ``project.generator``</span>
+
+<span class="sd">This module provides some classes to generate and handle</span>
+<span class="sd">different types of data during running the application. This can be used</span>
+<span class="sd">outside the application as it works independently.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">statistics</span> <span class="k">import</span> <span class="n">stdev</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">Counter</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="k">import</span> <span class="n">shuffle</span><span class="p">,</span> <span class="n">choice</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="k">import</span> <span class="n">product</span><span class="p">,</span> <span class="n">chain</span>
+
+
+<div class="viewcode-block" id="BaseGenerator"><a class="viewcode-back" href="../../project_rst/generator.html#project.generator.BaseGenerator">[docs]</a><span class="k">class</span> <span class="nc">BaseGenerator</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	This class contains a base function :meth:`get_frequency` to count</span>
+<span class="sd">	occurencies of each items in all tuples.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		tuples (list(tuple or set or list)): list of tuples/lists/sets of items</span>
+<span class="sd">	</span>
+<span class="sd">	Attributes:</span>
+<span class="sd">		frequencies (collections.Counter): container in form of a dictionary to</span>
+<span class="sd">				save all items and frequencies inside given lists of sets</span>
+
+<span class="sd">	Examples:</span>
+<span class="sd">		&gt;&gt;&gt; tuples = [(&#39;A&#39;,&#39;B&#39;,&#39;C&#39;), (&#39;B&#39;,&#39;C&#39;,&#39;D&#39;),(&#39;D&#39;,&#39;A&#39;,&#39;C&#39;)]</span>
+<span class="sd">		&gt;&gt;&gt; base = BaseGenerator(tuples=tuples)</span>
+<span class="sd">		&gt;&gt;&gt; base.frequencies</span>
+<span class="sd">		Counter({&#39;C&#39;: 3, &#39;A&#39;: 2, &#39;B&#39;: 2, &#39;D&#39;: 2})</span>
+
+<span class="sd">	&quot;&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tuples</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">frequencies</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_frequency</span><span class="p">(</span><span class="n">tuples</span><span class="p">)</span>
+
+<div class="viewcode-block" id="BaseGenerator.get_frequency"><a class="viewcode-back" href="../../project_rst/generator.html#project.generator.BaseGenerator.get_frequency">[docs]</a>	<span class="k">def</span> <span class="nf">get_frequency</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tuples</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Count the number of tuples each item is in. </span>
+
+<span class="sd">		Args:</span>
+<span class="sd">			tuples (list(tuple or set or list)): set of tuples</span>
+
+<span class="sd">		Returns: </span>
+<span class="sd">			collections.Counter: frequencies of items in all tuples</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="n">Counter</span><span class="p">(</span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="n">tuples</span><span class="p">))</span>		</div></div>
+		
+
+<div class="viewcode-block" id="DataGenerator"><a class="viewcode-back" href="../../project_rst/generator.html#project.generator.DataGenerator">[docs]</a><span class="k">class</span> <span class="nc">DataGenerator</span><span class="p">(</span><span class="n">BaseGenerator</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Extend :class:`BaseGenerator`. Create an object of input data for the</span>
+<span class="sd">	survey based on input file(s).</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		num_iter (int, optional): number of necessary iterations to generate </span>
+<span class="sd">					tuples, *default:* ``100``</span>
+<span class="sd">		batch_size (int, optional): size of a normal batch, *default:* ``20``</span>
+<span class="sd">		minimum (int, optional): minimum size of a batch to be formed if the</span>
+<span class="sd">					rest items do not meet the normal size, *default:* ``5``</span>
+
+<span class="sd">	Attributes:</span>
+<span class="sd">		items (set): the unique given items</span>
+<span class="sd">		tuples (list): list of all unique generated tuples with the best</span>
+<span class="sd">				results after all iterations</span>
+<span class="sd">		batches (dict): all batches prepared for questionnaire</span>
+<span class="sd">		num_iter (int): number of necessary iterations to generate tuples,</span>
+<span class="sd">				*default:* ``100``</span>
+<span class="sd">		batch_size (int): size of a normal batch, *default:* ``20``</span>
+<span class="sd">		minimum (int): minimum size of a batch to be formed if the rest</span>
+<span class="sd">				items do not meet the normal :attr:`batch_size`, *default:* ``5``</span>
+<span class="sd">		factor (int or float): to decide the number of tuples to be </span>
+<span class="sd">				generated - `n_tuples =` :attr:`factor` `* len(` :attr:`items` `)`,</span>
+<span class="sd">				*default:* ``2`` if fewer than 10000 items </span>
+<span class="sd">		tuple_size (int): size of each tuple, *default:* ``4`` if fewer than 1000</span>
+<span class="sd">				items else ``5``</span>
+
+<span class="sd">	Examples:</span>
+<span class="sd">		&gt;&gt;&gt; example = open(&#39;../examples/movie_reviews_examples.txt&#39;,&#39;rb&#39;)</span>
+<span class="sd">		&gt;&gt;&gt; data = DataGenerator()</span>
+<span class="sd">		&gt;&gt;&gt; data.generate_items(example)</span>
+<span class="sd">		&gt;&gt;&gt; data.generate_data()</span>
+<span class="sd">		&gt;&gt;&gt; data.items # items read from input example</span>
+<span class="sd">		{&#39;interesting&#39;, &#39;excited&#39;, &#39;annoyed&#39;, &#39;boring&#39;, &#39;aggressive&#39;, &#39;joyful&#39;, &#39;fantastic&#39;, &#39;indifferent&#39;}</span>
+<span class="sd">		&gt;&gt;&gt; data.tuples # tuples generated from the items (change each time calling this function)</span>
+<span class="sd">		[[&#39;interesting&#39;, &#39;indifferent&#39;, &#39;excited&#39;, &#39;joyful&#39;], [&#39;indifferent&#39;, &#39;boring&#39;, &#39;aggressive&#39;, &#39;joyful&#39;], [&#39;interesting&#39;, &#39;fantastic&#39;, &#39;annoyed&#39;, &#39;indifferent&#39;], [&#39;joyful&#39;, &#39;fantastic&#39;, &#39;annoyed&#39;, &#39;indifferent&#39;], [&#39;fantastic&#39;, &#39;annoyed&#39;, &#39;aggressive&#39;, &#39;indifferent&#39;], [&#39;fantastic&#39;, &#39;boring&#39;, &#39;indifferent&#39;, &#39;joyful&#39;], [&#39;excited&#39;, &#39;boring&#39;, &#39;aggressive&#39;, &#39;interesting&#39;], [&#39;interesting&#39;, &#39;aggressive&#39;, &#39;annoyed&#39;, &#39;joyful&#39;], [&#39;interesting&#39;, &#39;fantastic&#39;, &#39;boring&#39;, &#39;aggressive&#39;], [&#39;excited&#39;, &#39;fantastic&#39;, &#39;indifferent&#39;, &#39;joyful&#39;], [&#39;excited&#39;, &#39;boring&#39;, &#39;annoyed&#39;, &#39;joyful&#39;], [&#39;interesting&#39;, &#39;fantastic&#39;, &#39;excited&#39;, &#39;indifferent&#39;], [&#39;excited&#39;, &#39;aggressive&#39;, &#39;annoyed&#39;, &#39;interesting&#39;], [&#39;fantastic&#39;, &#39;boring&#39;, &#39;aggressive&#39;, &#39;annoyed&#39;], [&#39;interesting&#39;, &#39;fantastic&#39;, &#39;aggressive&#39;, &#39;joyful&#39;], [&#39;excited&#39;, &#39;boring&#39;, &#39;annoyed&#39;, &#39;indifferent&#39;]]</span>
+<span class="sd">		&gt;&gt;&gt; data.batches # batches generated from the tuples (change each time calling this function)</span>
+<span class="sd">		{1: [[&#39;interesting&#39;, &#39;indifferent&#39;, &#39;excited&#39;, &#39;joyful&#39;], [&#39;indifferent&#39;, &#39;boring&#39;, &#39;aggressive&#39;, &#39;joyful&#39;], [&#39;interesting&#39;, &#39;fantastic&#39;, &#39;annoyed&#39;, &#39;indifferent&#39;], [&#39;joyful&#39;, &#39;fantastic&#39;, &#39;annoyed&#39;, &#39;indifferent&#39;], [&#39;fantastic&#39;, &#39;annoyed&#39;, &#39;aggressive&#39;, &#39;indifferent&#39;]], 2: [[&#39;fantastic&#39;, &#39;boring&#39;, &#39;indifferent&#39;, &#39;joyful&#39;], [&#39;excited&#39;, &#39;boring&#39;, &#39;aggressive&#39;, &#39;interesting&#39;], [&#39;interesting&#39;, &#39;aggressive&#39;, &#39;annoyed&#39;, &#39;joyful&#39;], [&#39;interesting&#39;, &#39;fantastic&#39;, &#39;boring&#39;, &#39;aggressive&#39;], [&#39;excited&#39;, &#39;fantastic&#39;, &#39;indifferent&#39;, &#39;joyful&#39;]], 3: [[&#39;excited&#39;, &#39;boring&#39;, &#39;annoyed&#39;, &#39;joyful&#39;], [&#39;interesting&#39;, &#39;fantastic&#39;, &#39;excited&#39;, &#39;indifferent&#39;], [&#39;excited&#39;, &#39;aggressive&#39;, &#39;annoyed&#39;, &#39;interesting&#39;], [&#39;fantastic&#39;, &#39;boring&#39;, &#39;aggressive&#39;, &#39;annoyed&#39;], [&#39;interesting&#39;, &#39;fantastic&#39;, &#39;aggressive&#39;, &#39;joyful&#39;], [&#39;excited&#39;, &#39;boring&#39;, &#39;annoyed&#39;, &#39;indifferent&#39;]]}</span>
+<span class="sd">		&gt;&gt;&gt; data.get_frequency(data.tuples) # get frequency of each item in all generated tuples</span>
+<span class="sd">		Counter({&#39;indifferent&#39;: 9, &#39;fantastic&#39;: 9, &#39;interesting&#39;: 8, &#39;joyful&#39;: 8, &#39;aggressive&#39;: 8, &#39;annoyed&#39;: 8, &#39;excited&#39;: 7, &#39;boring&#39;: 7})</span>
+<span class="sd">	</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">minimum</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+
+		<span class="c1"># initialize all data: items, tuples, batches</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">items</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">tuples</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">batches</span> <span class="o">=</span> <span class="p">{}</span>
+
+		<span class="c1"># extra information</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">num_iter</span> <span class="o">=</span> <span class="n">num_iter</span> 
+		<span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch_size</span> 
+		<span class="bp">self</span><span class="o">.</span><span class="n">minimum</span> <span class="o">=</span> <span class="n">minimum</span>
+
+		<span class="c1"># set factor</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">factor</span> <span class="o">=</span> <span class="mf">1.5</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">10000</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">)</span> <span class="o">%</span><span class="mi">4</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">2</span>
+
+		<span class="c1"># set tuple size</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">tuple_size</span> <span class="o">=</span> <span class="mi">5</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1000</span> <span class="k">else</span> <span class="mi">4</span>
+
+<div class="viewcode-block" id="DataGenerator.generate_tuples"><a class="viewcode-back" href="../../project_rst/generator.html#project.generator.DataGenerator.generate_tuples">[docs]</a>	<span class="k">def</span> <span class="nf">generate_tuples</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Generate tuples, this is a reimplementation of `generate-BWS-tuples.pl`</span>
+<span class="sd">		in :bws:`source code &lt;Best-Worst-Scaling-Scripts.zip&gt;`.</span>
+
+<span class="sd">		The tuples are generated by random sampling and satisfy the following</span>
+<span class="sd">		criteria:</span>
+
+<span class="sd">			1. no two items within a tuple are identical; </span>
+<span class="sd">			2. each item in the item list appears approximately in the same number of tuples; </span>
+<span class="sd">			3. each pair of items appears approximately in the same number of tuples.</span>
+
+<span class="sd">		Returns:</span>
+<span class="sd">			list: update list of all unique generated tuples with the best results</span>
+<span class="sd">			after all (attribute :attr:`tuples`).</span>
+
+<span class="sd">		Raises:</span>
+<span class="sd">			ValueError: if the number of :attr:`items` is fewer than :attr:`tuple_size`.</span>
+
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">create_key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">i1</span><span class="p">,</span> <span class="n">i2</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">-</span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">i1</span><span class="p">,</span> <span class="n">i2</span><span class="p">)</span>
+
+		<span class="c1"># sort the items</span>
+		<span class="n">items</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">))</span>
+
+		<span class="n">num_items</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
+
+		<span class="c1"># check if the number of unique items is not less than </span>
+		<span class="c1"># the number of items requested per tuple</span>
+		<span class="k">if</span> <span class="n">num_items</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">tuple_size</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;The number of unique items is less than the number </span>
+<span class="s1">										of items requested per tuple&#39;&#39;&#39;</span><span class="p">)</span>
+
+		<span class="c1"># generate tuples</span>
+		<span class="n">number_tuples</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">factor</span> <span class="o">*</span> <span class="n">num_items</span><span class="p">)</span>
+
+		<span class="c1"># try many iterations of different randomizations</span>
+		<span class="n">best_score</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="n">best_tuples</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="n">iter_</span> <span class="o">=</span> <span class="mi">0</span>
+
+		<span class="k">for</span> <span class="n">i_iter</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_iter</span><span class="p">):</span>
+			<span class="c1"># print(&#39;Iteration %d&#39;%(i_iter+1))</span>
+
+			<span class="c1"># generate tuples by randomly sampling without replacement</span>
+			<span class="n">tuples</span> <span class="o">=</span> <span class="p">[]</span>
+
+			<span class="n">count</span> <span class="o">=</span> <span class="mi">1</span>
+
+			<span class="c1"># make a random list of items</span>
+			<span class="n">random_items</span> <span class="o">=</span> <span class="n">items</span><span class="p">[:]</span>
+			<span class="n">shuffle</span><span class="p">(</span><span class="n">random_items</span><span class="p">)</span>
+
+			<span class="n">freq_pair</span> <span class="o">=</span> <span class="p">{}</span>
+
+			<span class="c1"># set index of current item in the random list</span>
+			<span class="n">curr_ind</span> <span class="o">=</span> <span class="mi">0</span>
+
+			<span class="k">while</span> <span class="n">count</span> <span class="o">&lt;=</span> <span class="n">number_tuples</span><span class="p">:</span>
+				<span class="c1"># new tuple</span>
+				<span class="n">new_tuple</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+				<span class="c1"># check if there are enough remained items in the random list for a new tuple</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">curr_ind</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">tuple_size</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">random_items</span><span class="p">):</span>
+					<span class="c1"># set a new tuple with tuple_size items in the random list </span>
+					<span class="c1"># starting at index curr_ind</span>
+					<span class="n">new_tuple</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">random_items</span><span class="p">[</span><span class="n">curr_ind</span><span class="p">:</span><span class="n">curr_ind</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">tuple_size</span><span class="p">])</span>
+					<span class="n">curr_ind</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tuple_size</span>
+
+				<span class="c1"># get the rest of the list</span>
+				<span class="k">else</span><span class="p">:</span>
+
+					<span class="c1"># the number of items that we will need to get from a new random list</span>
+					<span class="n">need_more</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tuple_size</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">random_items</span><span class="p">)</span> <span class="o">+</span> <span class="n">curr_ind</span>
+
+					<span class="k">while</span> <span class="n">curr_ind</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">random_items</span><span class="p">):</span>
+						<span class="n">new_tuple</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">random_items</span><span class="p">[</span><span class="n">curr_ind</span><span class="p">])</span>
+						<span class="n">curr_ind</span> <span class="o">+=</span> <span class="mi">1</span>
+
+					<span class="c1"># generate a new random list of items</span>
+					<span class="n">random_items</span> <span class="o">=</span> <span class="n">items</span><span class="p">[:]</span>
+					<span class="n">shuffle</span><span class="p">(</span><span class="n">random_items</span><span class="p">)</span>
+
+					<span class="k">for</span> <span class="n">curr_ind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">need_more</span><span class="p">):</span>
+						<span class="c1"># if there is a duplicate item, move it to the end of the list</span>
+						<span class="k">while</span> <span class="n">random_items</span><span class="p">[</span><span class="n">curr_ind</span><span class="p">]</span> <span class="ow">in</span> <span class="n">new_tuple</span><span class="p">:</span>
+							<span class="n">dup</span> <span class="o">=</span> <span class="n">random_items</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">curr_ind</span><span class="p">)</span>
+							<span class="n">random_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dup</span><span class="p">)</span>
+
+						<span class="n">new_tuple</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">random_items</span><span class="p">[</span><span class="n">curr_ind</span><span class="p">])</span>
+
+				<span class="c1"># check whether this new_tuple already in the list of tuples</span>
+				<span class="k">if</span> <span class="n">new_tuple</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tuples</span><span class="p">:</span>
+					<span class="n">tuples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_tuple</span><span class="p">)</span>
+					<span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+				<span class="k">else</span><span class="p">:</span>
+					<span class="k">continue</span>
+				
+				<span class="c1"># add frequencies of pairs of items</span>
+				<span class="k">for</span> <span class="p">(</span><span class="n">item1</span><span class="p">,</span> <span class="n">item2</span><span class="p">)</span> <span class="ow">in</span> <span class="n">product</span><span class="p">(</span><span class="n">new_tuple</span><span class="p">,</span> <span class="n">new_tuple</span><span class="p">):</span>
+					<span class="k">if</span> <span class="n">item1</span> <span class="o">&lt;</span> <span class="n">item2</span><span class="p">:</span>
+						<span class="n">key</span> <span class="o">=</span> <span class="n">create_key</span><span class="p">(</span><span class="n">item1</span><span class="p">,</span> <span class="n">item2</span><span class="p">)</span>
+
+					<span class="k">else</span><span class="p">:</span> 
+						<span class="n">key</span> <span class="o">=</span> <span class="n">create_key</span><span class="p">(</span><span class="n">item2</span><span class="p">,</span> <span class="n">item1</span><span class="p">)</span>
+
+					<span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">freq_pair</span><span class="p">:</span>
+						<span class="n">freq_pair</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+					<span class="k">else</span><span class="p">:</span>
+						<span class="n">freq_pair</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+
+			<span class="c1"># calculate the two-way balance of the set of tuples</span>
+			<span class="n">freq_pair_values</span> <span class="o">=</span> <span class="n">freq_pair</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+
+			<span class="c1"># calculate the score for the set and keep the best score and the best set</span>
+			<span class="n">score</span> <span class="o">=</span> <span class="n">stdev</span><span class="p">(</span><span class="n">freq_pair_values</span><span class="p">)</span>
+
+			<span class="k">if</span> <span class="n">i_iter</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">score</span> <span class="o">&lt;</span> <span class="n">best_score</span><span class="p">:</span>
+				<span class="n">best_score</span> <span class="o">=</span> <span class="n">score</span>
+				<span class="n">best_tuples</span> <span class="o">=</span> <span class="n">tuples</span><span class="p">[:]</span>
+				<span class="c1"># iter_ = i_iter</span>
+
+		<span class="c1"># print(&#39;Choose from iteration {} with score {}&#39;.format(iter_+1, best_score))</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">tuples</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">best_tuple</span><span class="p">)</span> <span class="k">for</span> <span class="n">best_tuple</span> <span class="ow">in</span> <span class="n">best_tuples</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="DataGenerator.generate_batches"><a class="viewcode-back" href="../../project_rst/generator.html#project.generator.DataGenerator.generate_batches">[docs]</a>	<span class="k">def</span> <span class="nf">generate_batches</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Split the whole set of tuples into batches.</span>
+
+<span class="sd">		Returns:</span>
+<span class="sd">			dict(int = list): update all batches prepared for questionnaire</span>
+<span class="sd">					(attribute :attr:`batches`).</span>
+<span class="sd">		</span>
+<span class="sd">		Raises:</span>
+<span class="sd">			ValueError: if there is no attribute :attr:`tuples`.</span>
+
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">tuples</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;No tuples generated&#39;</span><span class="p">)</span>
+
+		<span class="n">n_tuples</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tuples</span><span class="p">)</span>
+
+		<span class="c1"># in case there are too few generated tuples and </span>
+		<span class="c1"># there is only one batch for all due to large batch size,</span>
+		<span class="c1"># the batch size will be set to a smaller size (5)</span>
+		<span class="k">if</span> <span class="n">n_tuples</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span> <span class="o">=</span> <span class="mi">5</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">minimum</span> <span class="o">=</span> <span class="mi">3</span>
+
+		<span class="n">remained</span> <span class="o">=</span> <span class="n">n_tuples</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span>
+
+		<span class="n">shuffle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tuples</span><span class="p">)</span>
+
+		<span class="c1"># divide the tuples into batches</span>
+		<span class="k">for</span> <span class="n">count</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_tuples</span><span class="o">-</span><span class="n">remained</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">)):</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">batches</span><span class="p">[</span><span class="n">count</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tuples</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">]</span>
+
+		<span class="c1"># set this batch with minimum size if it cannot fulfill the normally set batch size</span>
+		<span class="k">if</span> <span class="n">remained</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">minimum</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">batches</span><span class="p">[</span><span class="n">count</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tuples</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">:]</span>
+
+		<span class="c1"># if the number of remained items cannot fulfill the minimum size condition, </span>
+		<span class="c1"># try to randomly add each of the rest tuples into the formed batches</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="n">chosen_batches</span> <span class="o">=</span> <span class="p">[]</span>
+			<span class="n">remained_tuples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tuples</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">:]</span>
+
+			<span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">remained_tuples</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+				<span class="n">tuple_</span> <span class="o">=</span> <span class="n">remained_tuples</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+
+				<span class="c1"># choose randomly a batch to add tuple</span>
+				<span class="n">i_batch</span> <span class="o">=</span> <span class="n">choice</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">batches</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+
+				<span class="c1"># check if all batches already have new randomly added tuples </span>
+				<span class="c1"># while there are still remained tuples</span>
+				<span class="k">while</span> <span class="n">i_batch</span> <span class="ow">in</span> <span class="n">chosen_batches</span><span class="p">:</span>
+					<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">chosen_batches</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">batches</span><span class="p">):</span>
+						<span class="n">i_batch</span> <span class="o">=</span> <span class="n">choice</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">batches</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+
+					<span class="c1"># set the check to null again</span>
+					<span class="k">else</span><span class="p">:</span>
+						<span class="n">chosen_batches</span> <span class="o">=</span> <span class="p">[]</span>
+
+				<span class="bp">self</span><span class="o">.</span><span class="n">batches</span><span class="p">[</span><span class="n">i_batch</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tuple_</span><span class="p">)</span>
+				<span class="n">chosen_batches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i_batch</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataGenerator.generate_items"><a class="viewcode-back" href="../../project_rst/generator.html#project.generator.DataGenerator.generate_items">[docs]</a>	<span class="k">def</span> <span class="nf">generate_items</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Read uploaded *txt*-file. Accept only one file each time.</span>
+
+<span class="sd">		Args:</span>
+<span class="sd">			file_name (:dat-struct:`FileStorage &lt;werkzeug.datastructures.FileStorage&gt;` or :reader:`io.BufferedReader &lt;io.BufferedReader&gt;`): uploaded file</span>
+
+<span class="sd">		Returns:</span>
+<span class="sd">			list: update list of items with this file (attribute :attr:`items`).</span>
+<span class="sd"> </span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">input_file</span> <span class="o">=</span> <span class="n">file_name</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+		<span class="n">data</span> <span class="o">=</span> <span class="n">input_file</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">input_file</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span> <span class="k">else</span> <span class="p">[]</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">items</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">data</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="DataGenerator.generate_data"><a class="viewcode-back" href="../../project_rst/generator.html#project.generator.DataGenerator.generate_data">[docs]</a>	<span class="k">def</span> <span class="nf">generate_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Generate data including tuples and batches. This method calls</span>
+<span class="sd">		:meth:`generate_tuples` and :meth:`generate_batches`.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">generate_tuples</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">generate_batches</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="ScoreGenerator"><a class="viewcode-back" href="../../project_rst/generator.html#project.generator.ScoreGenerator">[docs]</a><span class="k">class</span> <span class="nc">ScoreGenerator</span><span class="p">(</span><span class="n">BaseGenerator</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Create an object to calculate the scores of given items based on annotations.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		tuples (list): list of tuples</span>
+<span class="sd">		best (list): list of items annotated as &#39;**best**&#39;</span>
+<span class="sd">		worst (list): list of items annotated as &#39;**worst**&#39;</span>
+
+<span class="sd">	Attributes:</span>
+<span class="sd">		frequencies (dict or collections.Counter): frequency of each item in all tuples</span>
+<span class="sd">		best (dict or collections.Counter): frequency of each item annotated as &#39;**best**&#39;</span>
+<span class="sd">		worst (dict or collections.Counter): frequency of each item annotated as &#39;**worst**&#39;</span>
+
+<span class="sd">	Examples:</span>
+<span class="sd">		&gt;&gt;&gt; tuples = [(&#39;A&#39;,&#39;B&#39;,&#39;C&#39;), (&#39;B&#39;,&#39;C&#39;,&#39;D&#39;),(&#39;D&#39;,&#39;A&#39;,&#39;C&#39;)]</span>
+<span class="sd">		&gt;&gt;&gt; best = [&#39;A&#39;,&#39;B&#39;,&#39;A&#39;]</span>
+<span class="sd">		&gt;&gt;&gt; worst = [&#39;B&#39;,&#39;D&#39;,&#39;C&#39;]</span>
+<span class="sd">		&gt;&gt;&gt; generator = ScoreGenerator(tuples, best, worst)</span>
+<span class="sd">		&gt;&gt;&gt; generator.scoring()</span>
+<span class="sd">		[(&#39;A&#39;, 1.0), (&#39;B&#39;, 0.0), (&#39;C&#39;, -0.3333333333333333), (&#39;D&#39;, -0.5)]</span>
+
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tuples</span><span class="p">,</span> <span class="n">best</span><span class="p">,</span> <span class="n">worst</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">tuples</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">best</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">best</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">worst</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">worst</span><span class="p">)</span>
+	
+<div class="viewcode-block" id="ScoreGenerator.scoring"><a class="viewcode-back" href="../../project_rst/generator.html#project.generator.ScoreGenerator.scoring">[docs]</a>	<span class="k">def</span> <span class="nf">scoring</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Calculate scores of the items using formula of :orme09:`Orme 2009 &lt;indivmaxdiff.pdf&gt;`.</span>
+
+<span class="sd">		Returns:</span>
+<span class="sd">			list(tuple(str, float)): descendingly sorted list of tuples ``(item, score)``</span>
+<span class="sd">			based on scores</span>
+
+<span class="sd">		References:</span>
+<span class="sd">			More about research with :bws:`Best-Worst-Scaling &lt;&gt;`</span>
+
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">scores</span> <span class="o">=</span> <span class="p">{}</span>
+		<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">frequencies</span><span class="p">:</span>
+			<span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">best</span><span class="p">[</span><span class="n">item</span><span class="p">]</span> <span class="k">if</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">best</span> <span class="k">else</span> <span class="mi">0</span>
+			<span class="n">neg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">worst</span><span class="p">[</span><span class="n">item</span><span class="p">]</span> <span class="k">if</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">worst</span> <span class="k">else</span> <span class="mi">0</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">pos</span> <span class="o">+</span> <span class="n">neg</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+				<span class="n">scores</span><span class="p">[</span><span class="n">item</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="n">scores</span><span class="p">[</span><span class="n">item</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">pos</span> <span class="o">-</span> <span class="n">neg</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">frequencies</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
+		<span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">scores</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Web Interface for Best-Worst-Scaling</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../config.html">Configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../project_rst/project.html">Web Application</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../templates.html">Templates</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, D. Nguyen, M. Charniuk, S. Safdel.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

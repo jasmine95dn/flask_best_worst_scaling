@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>project.user.helpers &#8212; Web Interface for Best-Worst-Scaling 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for project.user.helpers</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Helper Functions</span>
+<span class="sd">*****************</span>
+
+<span class="sd">*Module* ``project.user.helpers`` </span>
+
+<span class="sd">This module provides some helper functions to deal with problems</span>
+<span class="sd">of each subroute inside User-System.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">string</span><span class="o">,</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">date</span>
+<span class="kn">from</span> <span class="nn">werkzeug.utils</span> <span class="k">import</span> <span class="n">secure_filename</span>
+<span class="kn">from</span> <span class="nn">..generator</span> <span class="k">import</span> <span class="n">DataGenerator</span>
+<span class="kn">from</span> <span class="nn">..validators</span> <span class="k">import</span> <span class="n">allowed_file</span>
+
+<div class="viewcode-block" id="is_not_current_user"><a class="viewcode-back" href="../../../project_rst/user_rst/helpers.html#project.user.helpers.is_not_current_user">[docs]</a><span class="k">def</span> <span class="nf">is_not_current_user</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">current_name</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Inside the User-System, if a user is logged in and authenticated, </span>
+<span class="sd">	this user is not allowed to see profile of an another user by typing the route!</span>
+<span class="sd">	If this meets the conditions which means the current user tries to access to </span>
+<span class="sd">	the account of an another user, this current user will be redirected to the login page</span>
+<span class="sd">	and asked to log in with the used username.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		user (:local:`werkzeug.LocalProxy &lt;werkzeug.local.LocalProxy&gt;`): this is actually </span>
+<span class="sd">								the attribute :login:`current_user &lt;flask_login.current_user&gt;`</span>
+<span class="sd">		current_name (str): name of the other user to be typed in the route</span>
+
+<span class="sd">	Returns: </span>
+<span class="sd">		bool: ``True`` if this is not the current user else ``False``</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">return</span> <span class="n">user</span> <span class="ow">and</span> <span class="n">user</span><span class="o">.</span><span class="n">is_authenticated</span> <span class="ow">and</span> <span class="n">current_name</span> <span class="o">!=</span> <span class="n">user</span><span class="o">.</span><span class="n">username</span></div>
+
+
+<div class="viewcode-block" id="upload_file"><a class="viewcode-back" href="../../../project_rst/user_rst/helpers.html#project.user.helpers.upload_file">[docs]</a><span class="k">def</span> <span class="nf">upload_file</span><span class="p">(</span><span class="n">files</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Upload all files and store in container for later use.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		files (list(:dat-struct:`FileStorage &lt;werkzeug.datastructures.FileStorage&gt;`)): list of uploaded files</span>
+<span class="sd">	</span>
+<span class="sd">	Returns:</span>
+<span class="sd">		generator.DataGenerator: object that contains list of items, batches and tuples </span>
+<span class="sd">		if the number of items meeth the required condition</span>
+
+<span class="sd">	Warning:</span>
+<span class="sd">		* Returns 1 if there are items but the number is fewer than 5.</span>
+<span class="sd">		* Returns None if there is no item at all.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+
+	<span class="c1"># create DataGenerator object</span>
+	<span class="n">data</span> <span class="o">=</span> <span class="n">DataGenerator</span><span class="p">()</span>
+
+	<span class="c1"># keep updating datas for all validated uploaded files</span>
+	<span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+		<span class="k">if</span> <span class="n">file</span> <span class="ow">and</span> <span class="n">allowed_file</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">filename</span><span class="p">):</span>
+			<span class="n">data</span><span class="o">.</span><span class="n">generate_items</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+
+	<span class="c1"># check if the items after all meet the requirements of the project:</span>
+	<span class="c1"># There must be at least 5 items for this project to be relevant</span>
+	<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">data</span><span class="o">.</span><span class="n">tuple_size</span><span class="p">:</span>
+		<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="k">return</span> <span class="kc">None</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="k">return</span> <span class="mi">1</span>
+
+	<span class="c1"># generate data, this generates the batches and tuples from the given items</span>
+	<span class="n">data</span><span class="o">.</span><span class="n">generate_data</span><span class="p">()</span>
+
+	<span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="generate_keyword"><a class="viewcode-back" href="../../../project_rst/user_rst/helpers.html#project.user.helpers.generate_keyword">[docs]</a><span class="k">def</span> <span class="nf">generate_keyword</span><span class="p">(</span><span class="n">chars</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">k_length</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Generate keyword for annotators and batches.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		chars (str): type of characters used to generate keyword, </span>
+<span class="sd">				*default:* ``string.ascii_letters+string.digits``</span>
+<span class="sd">		k_length (int): length of the keyword, *default:* ``random.randint(8,12)``</span>
+<span class="sd">	</span>
+<span class="sd">	Returns: </span>
+<span class="sd">		str: generated keyword</span>
+
+<span class="sd">	Examples:</span>
+<span class="sd">		&gt;&gt;&gt; generate_keyword()</span>
+<span class="sd">		&#39;WfgdmWPZ7fx&#39;</span>
+<span class="sd">		&gt;&gt;&gt; generate_keyword(chars=string.digits)</span>
+<span class="sd">		&#39;15151644097&#39;</span>
+<span class="sd">		&gt;&gt;&gt; generate_keyword(chars=string.ascii_letters, k_length=3)</span>
+<span class="sd">		&#39;RIF&#39;</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+
+	<span class="c1"># set default for chars and k_length if they are not defined</span>
+	<span class="k">if</span> <span class="ow">not</span> <span class="n">chars</span><span class="p">:</span>
+		<span class="n">chars</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">ascii_letters</span><span class="o">+</span><span class="n">string</span><span class="o">.</span><span class="n">digits</span>
+	<span class="k">if</span> <span class="ow">not</span> <span class="n">k_length</span><span class="p">:</span>
+		<span class="n">k_length</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">12</span><span class="p">)</span>
+
+	<span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">chars</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k_length</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="convert_into_seconds"><a class="viewcode-back" href="../../../project_rst/user_rst/helpers.html#project.user.helpers.convert_into_seconds">[docs]</a><span class="k">def</span> <span class="nf">convert_into_seconds</span><span class="p">(</span><span class="n">duration</span><span class="p">,</span> <span class="n">unit</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Convert given duration and unit into seconds.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		duration (int): duration</span>
+<span class="sd">		unit (str): acronym for duration unit, </span>
+<span class="sd">					use: ``m`` - *month*, ``d`` - *day*, ``h`` - *hour*, ``min`` - *minute*</span>
+
+<span class="sd">	Returns:</span>
+<span class="sd">		int: converted duration in seconds</span>
+
+<span class="sd">	Examples:</span>
+<span class="sd">		&gt;&gt;&gt; convert_into_seconds(2,&#39;m&#39;) # month</span>
+<span class="sd">		5184000</span>
+<span class="sd">		&gt;&gt;&gt; convert_into_seconds(2,&#39;d&#39;) # day</span>
+<span class="sd">		172800</span>
+<span class="sd">		&gt;&gt;&gt; convert_into_seconds(2,&#39;h&#39;) # hour</span>
+<span class="sd">		7200</span>
+<span class="sd">		&gt;&gt;&gt; convert_into_seconds(2,&#39;min&#39;) # minute</span>
+<span class="sd">		120</span>
+<span class="sd">	</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">if</span> <span class="n">unit</span> <span class="o">==</span> <span class="s1">&#39;m&#39;</span><span class="p">:</span>
+		<span class="n">today</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+		<span class="n">deadline</span> <span class="o">=</span> <span class="n">today</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">month</span><span class="o">=</span><span class="n">today</span><span class="o">.</span><span class="n">month</span><span class="o">+</span><span class="n">duration</span><span class="p">)</span>
+		<span class="n">n_days</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">deadline</span> <span class="o">-</span> <span class="n">today</span><span class="p">)</span><span class="o">.</span><span class="n">days</span>
+		<span class="k">return</span> <span class="n">convert_into_seconds</span><span class="p">(</span><span class="n">duration</span><span class="o">=</span><span class="n">n_days</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">)</span>
+	<span class="k">elif</span> <span class="n">unit</span> <span class="o">==</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span>
+		<span class="k">return</span> <span class="n">duration</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span>
+	<span class="k">elif</span> <span class="n">unit</span> <span class="o">==</span> <span class="s1">&#39;h&#39;</span><span class="p">:</span>
+		<span class="k">return</span> <span class="n">duration</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span>
+	<span class="k">elif</span> <span class="n">unit</span> <span class="o">==</span> <span class="s1">&#39;min&#39;</span><span class="p">:</span>
+		<span class="k">return</span> <span class="n">duration</span> <span class="o">*</span> <span class="mi">60</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">Web Interface for Best-Worst-Scaling</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../config.html">Configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../project_rst/project.html">Web Application</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../templates.html">Templates</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, D. Nguyen, M. Charniuk, S. Safdel.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
