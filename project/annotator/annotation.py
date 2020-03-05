@@ -84,7 +84,7 @@ def batch(p_name, batch_id):
 			if current_batch in current_annotator.batches:
 				flash(f'Batch {batch_id} already submitted!', 'action')
 
-			if all([form.validate_on_submit() for form in forms]):
+			elif all([form.validate_on_submit() for form in forms]):
 
 				for form, tuple_ in zip(forms, current_batch.tuples):
 					if Data.query.filter_by(annotator=current_annotator, tuple_=tuple_).first():
