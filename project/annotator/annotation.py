@@ -99,7 +99,7 @@ def batch(p_name, batch_id):
 				db.session.commit()
 				flash(f'Batch {batch_id} successfully submitted!', 'action')
 				
-				return redirect(url_for("annotator.project", p_name=p_name))
+			return redirect(url_for("annotator.project", p_name=p_name))
 					
 		# Save Button
 		elif request.form['action'] == 'save':
