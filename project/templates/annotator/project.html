@@ -33,7 +33,7 @@
 	  {% if cbatch %}
 	  	<button class="btn btn-info" disabled="true"> {{ b_name }} <span class="glyphicon glyphicon-ok-sign"/> </button>
 	  {% else %}
-	  	<a class="btn btn-default" href="{{ url_for('annotator.batch', p_name=p_name, batch_id=batch_id) }}" target="_blank" rel="noopener noreferrer">{{ b_name }} <span class="glyphicon glyphicon-question-sign"/> </a>
+	  	<a class="btn btn-default" href="{{ url_for('annotator.batch', p_name=p_name, batch_id=batch_id) }}" >{{ b_name }} <span class="glyphicon glyphicon-question-sign"/> </a>
 	  {% endif %}
 
   	{% endfor %}
