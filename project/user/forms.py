@@ -137,7 +137,7 @@ class ProjectInformationForm(FlaskForm):
 	"""
 	upload = MultipleFileField(u'Upload file(s) of items (.txt)', validators=[InputRequired(message=u'')])
 	name = StringField(u'Name of this project', validators=[Optional()])
-	description = TextAreaField(u'Description of this project', 
+	description = TextAreaField(u'Description of this project (min. 20 characters)', 
 					validators=[InputRequired(message=u''), Length(min=20)] )
 	anno_number = IntegerField(u'Number of expected annotators for this project', 
 					validators=[InputRequired(message=u'')])
