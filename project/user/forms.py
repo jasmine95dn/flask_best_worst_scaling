@@ -36,7 +36,7 @@ class LoginForm(FlaskForm):
 										])
 	password = PasswordField(u'Password', 
 							validators=[InputRequired(message=u''), Length(min=8, max=80)])
-	remember = BooleanField(u'Remeber me')
+	remember = BooleanField(u'Remember me')
 
 	def validate(self):
 		"""
@@ -160,18 +160,20 @@ class ProjectInformationForm(FlaskForm):
 	aws_secret_access_key = StringField(u'Your IAM AWS secret access key', 
 							validators=[InputRequired(u'')], default='your_aws_secret_access_key')
 	keywords = StringField(u'Keywords describing this project', 
-					validators=[InputRequired(u'')], default='e.g. quick, sentiment, labeling')
+					validators=[InputRequired(u'')], default='quick, sentiment, labeling')
 	reward = StringField(u'Reward for each HIT', validators=[InputRequired(u'')], default='0.15')
 	lifetime = IntegerField(u'Project lifetime', validators=[InputRequired(u'')], default=1)
 	lifetimeunit = SelectField(u'In unit', 
 						choices=[('m', 'month(s)'), ('d', 'day(s)'), 
 								('h', 'hour(s)'), ('min', 'minute(s)')], 
+						default='h',
 						validators=[Optional()]
 						)
 	hit_duration = IntegerField(u'HIT duration', validators=[InputRequired(u'')], default=1)
 	duration_unit = SelectField(u'In unit', 
 						choices=[('m', 'month(s)'), ('d', 'day(s)'), 
-								('h', 'hour(s)'), ('min', 'minute(s)')], 
+								('h', 'hour(s)'), ('min', 'minute(s)')],
+						default='h',
 						validators=[Optional()]
 						)
 	
