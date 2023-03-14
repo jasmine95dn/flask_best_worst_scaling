@@ -15,7 +15,7 @@ using **Best-Worst-Scaling** ([Kiritchenko and Mohammad 2016](https://saifmohamm
 
 ## Requirements
 
-* [Python3.6](https://www.python.org/downloads/release/python-369/) or later (tested on python3.6 and python3.7)
+* [Python3.6](https://www.python.org/downloads/release/python-369/) only
 * [Flask](https://flask.palletsprojects.com/)
 * [Flask-Bootstrap](https://pythonhosted.org/Flask-Bootstrap/)
 * [Flask-Login](https://flask-login.readthedocs.io/en/latest/)
