@@ -2,7 +2,7 @@
  (Software Project WS 2019/2020)
 
 ## Author(s)
-Dang Hoang Dung Nguyen nguyen@cl.uni-heidelberg.de
+Dang Hoang Dung Nguyen nguyen@cl.uni-heidelberg.de / dhd.nguyen.dn@gmail.com
 
 Maryna Charniuk charniuk@cl.uni-heidelberg.de
 
@@ -30,8 +30,8 @@ using **Best-Worst-Scaling** ([Kiritchenko and Mohammad 2016](https://saifmohamm
  or [virtualenv](https://virtualenv.pypa.io/en/latest/) to manage dependencies for this repository. (*recommended*)
 * Clone the repository:
 ```sh
-$ git clone https://gitlab.cl.uni-heidelberg.de/nguyen/swp.git
-$ cd swp/
+$ git clone https://github.com/jasmine95dn/flask_best_worst_scaling.git
+$ cd flask_best_worst_scaling/
 ```
 
 * After activating the virtual environment, run:
@@ -43,11 +43,14 @@ to install requirements for this project.
 ## How to
 
 ### 1. Web Application
-In ```swp/``` run:
+In ```flask_best_worst_scaling/``` run:
 ```sh
 $ python main.py
 ```
 The system works locally. Open this [URL](http://127.0.0.1:5000/ "Local development system") in any browser to access to the web application.
+
+
+**Update**: Dockerfile updated, run Dockerfild to build the image instead
 
 #### § Structure
     
@@ -218,3 +221,16 @@ lexicon*. CoRR, abs/1308.6297, 2013. [URL](http://arxiv.org/abs/1308.6297).
 * Svetlana Kiritchenko and Saif M. Mohammad.  *Best-worst scaling more reliable than 
 rating scales: A case study on sentiment intensity annotation*. CoRR,
 abs/1712.01765, 2017. [URL](http://arxiv.org/abs/1712.01765)
+
+## Citation
+If you use our project, please cite it as below.
+
+```bibtex
+@software{flask_best_worst_scaling,
+    author = {Dang Hoang Dung Nguyen, Maryna Charniuk & Sanaz Safdel},
+    month = {2},
+    title = {{Web Interface for Best-Worst-Scaling}},
+    url = {https://github.com/jasmine95dn/flask_best_worst_scaling},
+    year = {2020}
+}
+```
