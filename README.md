@@ -56,7 +56,7 @@ The system works locally. Open this [URL](http://127.0.0.1:5000/ "Local developm
     
 In the following scheme is the structure of this directory for the web application :
 ```bash   
-swp/
+flask_best_worst_scaling/
 ├── ...
 ├── __init__.py
 ├── config.py - Configurations
@@ -226,7 +226,7 @@ abs/1712.01765, 2017. [URL](http://arxiv.org/abs/1712.01765)
 If you use our project, please cite it as below.
 
 ```bibtex
-@software{flask_best_worst_scaling,
+@misc{flask_best_worst_scaling,
     author = {Dang Hoang Dung Nguyen, Maryna Charniuk & Sanaz Safdel},
     month = {2},
     title = {{Web Interface for Best-Worst-Scaling}},
