@@ -130,3 +130,6 @@ dmypy.json
 
 # SQLite databases
 *.db
+
+# Legacy pip requirements file (replaced by pyproject.toml + poetry.lock)
+requirements.txt
