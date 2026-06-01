@@ -5,8 +5,8 @@
 This module defines the database tables used for the web application.
 
 See Also:
-	A quick example how to define a table with
-	`Flask_SQLALchemy <https://flask-sqlalchemy.palletsprojects.com/en/2.x/models/>`__
+        A quick example how to define a table with
+        `Flask_SQLALchemy <https://flask-sqlalchemy.palletsprojects.com/en/2.x/models/>`__
 
 """
 
@@ -14,277 +14,287 @@ from flask_login import UserMixin
 from werkzeug.security import check_password_hash, generate_password_hash
 from . import db
 
+
 class User(UserMixin, db.Model):
-	"""
-	Extend :login:`UserMixin <flask_login.UserMixin>` and
-	:db:`db.Model <flask_sqlalchemy.SQLAlchemy>`.
+    """
+    Extend :login:`UserMixin <flask_login.UserMixin>` and
+    :db:`db.Model <flask_sqlalchemy.SQLAlchemy>`.
 
-	Store data of each user who uses the system to get the scores of their items calculated.
+    Store data of each user who uses the system to get the scores of their items calculated.
 
-	Attributes:
-		id (:sql-type:`db.Integer <Integer>`): automatically defined user-id
-		username (:sql-type:`db.String <String>`): username
-		email (:sql-type:`db.String <String>`): user's email
-		password (:sql-type:`db.String <String>`): use method :security:`generate_password_hash() <generate_password_hash>` 
-												to create user's hashed password
-	"""
-	__tablename__ = 'users'
+    Attributes:
+            id (:sql-type:`db.Integer <Integer>`): automatically defined user-id
+            username (:sql-type:`db.String <String>`): username
+            email (:sql-type:`db.String <String>`): user's email
+            password (:sql-type:`db.String <String>`): use method :security:`generate_password_hash() <generate_password_hash>`
+                                                                                            to create user's hashed password
+    """
 
-	id = db.Column(db.Integer, primary_key=True)
-	username = db.Column(db.String(15), index=True, unique=True, nullable=False)
-	email = db.Column(db.String(50), unique=True, nullable=False)
-	password = db.Column(db.String(80), nullable=False)
+    __tablename__ = "users"
 
-	def __init__(self, username, email, password):
-		self.username = username
-		self.email = email
-		self.password = generate_password_hash(password, method='sha256')
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(15), index=True, unique=True, nullable=False)
+    email = db.Column(db.String(50), unique=True, nullable=False)
+    password = db.Column(db.String(80), nullable=False)
 
-	def check_password(self, password):
-		"""
-		Use :security:`check_password_hash() <check_password_hash>` to
-		check if given password from user and the password saved in table are the same.
+    def __init__(self, username, email, password):
+        self.username = username
+        self.email = email
+        self.password = generate_password_hash(password)
 
-		Args:
-			password (str): given password from user
+    def check_password(self, password):
+        """
+        Use :security:`check_password_hash() <check_password_hash>` to
+        check if given password from user and the password saved in table are the same.
 
-		Returns:
-			bool: ``True`` if these two are the same, else ``False``.
-		"""
-		return check_password_hash(self.password, password)
+        Args:
+                password (str): given password from user
 
-	def get_id(self):
-		"""
-		Override :login:`UserMixin.get_id() <flask_login.UserMixin>` method to
-		manage login in multi-login system.
-		"""
-		return f"user:{self.id}"
+        Returns:
+                bool: ``True`` if these two are the same, else ``False``.
+        """
+        return check_password_hash(self.password, password)
+
+    def get_id(self):
+        """
+        Override :login:`UserMixin.get_id() <flask_login.UserMixin>` method to
+        manage login in multi-login system.
+        """
+        return f"user:{self.id}"
 
 
 class Project(db.Model):
-	"""
-	Extend :db:`db.Model <flask_sqlalchemy.SQLAlchemy>`.
+    """
+    Extend :db:`db.Model <flask_sqlalchemy.SQLAlchemy>`.
 
-	Store data of each project uploaded by users.
+    Store data of each project uploaded by users.
 
-	Attributes:
-		id (:sql-type:`db.Integer <Integer>`): automatically defined project-id
-		name (:sql-type:`db.String <String>`): project name
-		description (:sql-type:`db.String <String>`): project description
-		anno_number (:sql-type:`db.Integer <Integer>`): number of expected 
-										annotations/annotators for this project
-		best_def (:sql-type:`db.String <String>`): definition of '**best**'
-		worst_def (:sql-type:`db.String <String>`): definition of '**worst**'
-		n_items (:sql-type:`db.Integer <Integer>`): number of items in project
-		p_name (:sql-type:`db.String <String>`): endpoint to this project
-		mturk (:sql-type:`db.Boolean <Boolean>`): whether to upload this project 
-										on `Mechanical Turk <https://www.mturk.com/>`__
-		user_id (:sql-type:`db.Integer <Integer>`): id of user this project belongs to
-		user (:sql-rel:`db.relationship <sqlalchemy.orm.relationship>`): ``many-to-one``
-										relationship with :class:`User`
-	"""
-	__tablename__ = 'projects'
+    Attributes:
+            id (:sql-type:`db.Integer <Integer>`): automatically defined project-id
+            name (:sql-type:`db.String <String>`): project name
+            description (:sql-type:`db.String <String>`): project description
+            anno_number (:sql-type:`db.Integer <Integer>`): number of expected
+                                                                            annotations/annotators for this project
+            best_def (:sql-type:`db.String <String>`): definition of '**best**'
+            worst_def (:sql-type:`db.String <String>`): definition of '**worst**'
+            n_items (:sql-type:`db.Integer <Integer>`): number of items in project
+            p_name (:sql-type:`db.String <String>`): endpoint to this project
+            mturk (:sql-type:`db.Boolean <Boolean>`): whether to upload this project
+                                                                            on `Mechanical Turk <https://www.mturk.com/>`__
+            user_id (:sql-type:`db.Integer <Integer>`): id of user this project belongs to
+            user (:sql-rel:`db.relationship <sqlalchemy.orm.relationship>`): ``many-to-one``
+                                                                            relationship with :class:`User`
+    """
 
-	id = db.Column(db.Integer, primary_key=True)
-	name = db.Column(db.Text, nullable=False)
-	description = db.Column(db.Text, nullable=False)
-	anno_number = db.Column(db.Integer, nullable=False)
-	best_def = db.Column(db.Text, nullable=False)
-	worst_def = db.Column(db.Text, nullable=False)
-	n_items = db.Column(db.Integer, nullable=False)
-	p_name = db.Column(db.Text, unique=True, nullable=False)
+    __tablename__ = "projects"
 
-	mturk = db.Column(db.Boolean)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text, nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    anno_number = db.Column(db.Integer, nullable=False)
+    best_def = db.Column(db.Text, nullable=False)
+    worst_def = db.Column(db.Text, nullable=False)
+    n_items = db.Column(db.Integer, nullable=False)
+    p_name = db.Column(db.Text, unique=True, nullable=False)
 
-	user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-	user = db.relationship('User', backref=db.backref('projects', order_by=id), lazy=True)
+    mturk = db.Column(db.Boolean)
 
-	def __init__(self, name, description, anno_number, best_def, \
-				 worst_def, n_items, p_name, mturk=False, user=None):
-		self.name = name
-		self.description = description
-		self.anno_number = anno_number
-		self.best_def = best_def
-		self.worst_def = worst_def
-		self.n_items = n_items
-		self.p_name = p_name
-		self.mturk = mturk
-		self.user = user
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    user = db.relationship("User", backref=db.backref("projects", order_by=id), lazy=True)
+
+    def __init__(self, name, description, anno_number, best_def, worst_def, n_items, p_name, mturk=False, user=None):
+        self.name = name
+        self.description = description
+        self.anno_number = anno_number
+        self.best_def = best_def
+        self.worst_def = worst_def
+        self.n_items = n_items
+        self.p_name = p_name
+        self.mturk = mturk
+        self.user = user
 
 
-annotator_batch = db.Table('annotator_batch',
-							db.Column('annotator_id', db.Integer, db.ForeignKey('annotators.id')),
-							db.Column('batch_id', db.Integer, db.ForeignKey('batches.id')),
-							db.PrimaryKeyConstraint('annotator_id', 'batch_id'))
+annotator_batch = db.Table(
+    "annotator_batch",
+    db.Column("annotator_id", db.Integer, db.ForeignKey("annotators.id")),
+    db.Column("batch_id", db.Integer, db.ForeignKey("batches.id")),
+    db.PrimaryKeyConstraint("annotator_id", "batch_id"),
+)
 
 
 class Batch(db.Model):
-	"""
-	Extend :db:`db.Model <flask_sqlalchemy.SQLAlchemy>`.
+    """
+    Extend :db:`db.Model <flask_sqlalchemy.SQLAlchemy>`.
 
-	Store data of each created batch from project.
+    Store data of each created batch from project.
 
-	Attributes:
-		id (:sql-type:`db.Integer <Integer>`): automatically defined batch-id
-		size (:sql-type:`db.Integer <Integer>`): batch size
-		keyword (:sql-type:`db.String <String>`): keyword for this batch 
-										(only used in case of MTurk)
-		hit_id (:sql-type:`db.String <String>`): endpoint to this batch 
-										in annotator system with option MTurk
-		project_id (:sql-type:`db.Integer <Integer>`): id of this batch's project
-		project (:sql-rel:`db.relationship <sqlalchemy.orm.relationship>`): ``many-to-one`` 
-										relationship with :class:`Project`
-	"""
-	__tablename__ = 'batches'
+    Attributes:
+            id (:sql-type:`db.Integer <Integer>`): automatically defined batch-id
+            size (:sql-type:`db.Integer <Integer>`): batch size
+            keyword (:sql-type:`db.String <String>`): keyword for this batch
+                                                                            (only used in case of MTurk)
+            hit_id (:sql-type:`db.String <String>`): endpoint to this batch
+                                                                            in annotator system with option MTurk
+            project_id (:sql-type:`db.Integer <Integer>`): id of this batch's project
+            project (:sql-rel:`db.relationship <sqlalchemy.orm.relationship>`): ``many-to-one``
+                                                                            relationship with :class:`Project`
+    """
 
-	id = db.Column(db.Integer, primary_key=True)
-	size = db.Column(db.Integer, nullable=False)
+    __tablename__ = "batches"
 
-	# for MTurk
-	keyword = db.Column(db.String, unique=True)
-	hit_id = db.Column(db.Text)
+    id = db.Column(db.Integer, primary_key=True)
+    size = db.Column(db.Integer, nullable=False)
 
-	project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
-	project = db.relationship('Project', backref=db.backref('batches', order_by=id), lazy=True)
+    # for MTurk
+    keyword = db.Column(db.String, unique=True)
+    hit_id = db.Column(db.Text)
 
-	def __init__(self, size, keyword=None, hit_id=None, project=None):
-		self.size = size
-		self.keyword = keyword
-		self.hit_id = hit_id
-		self.project = project
+    project_id = db.Column(db.Integer, db.ForeignKey("projects.id"), nullable=False)
+    project = db.relationship("Project", backref=db.backref("batches", order_by=id), lazy=True)
+
+    def __init__(self, size, keyword=None, hit_id=None, project=None):
+        self.size = size
+        self.keyword = keyword
+        self.hit_id = hit_id
+        self.project = project
 
 
-tuple_item = db.Table('tuple_item',
-					db.Column('tuple_id', db.Integer, db.ForeignKey('tuples.id'), nullable=False),
-					db.Column('item_id', db.Integer, db.ForeignKey('items.id'), nullable=False),
-					db.PrimaryKeyConstraint('tuple_id', 'item_id'))
+tuple_item = db.Table(
+    "tuple_item",
+    db.Column("tuple_id", db.Integer, db.ForeignKey("tuples.id"), nullable=False),
+    db.Column("item_id", db.Integer, db.ForeignKey("items.id"), nullable=False),
+    db.PrimaryKeyConstraint("tuple_id", "item_id"),
+)
 
 
 class Tuple(db.Model):
-	"""
-	Extend :db:`db.Model <flask_sqlalchemy.SQLAlchemy>`.
+    """
+    Extend :db:`db.Model <flask_sqlalchemy.SQLAlchemy>`.
 
-	Store data of each created tuple from project.
+    Store data of each created tuple from project.
 
-	Attributes:
-		id (:sql-type:`db.Integer <Integer>`): automatically defined tuple-id
-		batch_id (:sql-type:`db.Integer <Integer>`): id of this tuple's batch
-		batch (:sql-rel:`db.relationship <sqlalchemy.orm.relationship>`): ``many-to-one`` 
-															relationship with :class:`Batch`
-		items (:sql-rel:`db.relationship <sqlalchemy.orm.relationship>`): ``many-to-many`` 
-															relationship with :class:`Item`
-	"""
-	__tablename__ = 'tuples'
+    Attributes:
+            id (:sql-type:`db.Integer <Integer>`): automatically defined tuple-id
+            batch_id (:sql-type:`db.Integer <Integer>`): id of this tuple's batch
+            batch (:sql-rel:`db.relationship <sqlalchemy.orm.relationship>`): ``many-to-one``
+                                                                                                                    relationship with :class:`Batch`
+            items (:sql-rel:`db.relationship <sqlalchemy.orm.relationship>`): ``many-to-many``
+                                                                                                                    relationship with :class:`Item`
+    """
 
-	id = db.Column(db.Integer, primary_key=True)
+    __tablename__ = "tuples"
 
-	batch_id = db.Column(db.Integer, db.ForeignKey('batches.id'), nullable=False)
-	batch = db.relationship('Batch', backref=db.backref('tuples', order_by=id), lazy=True)
+    id = db.Column(db.Integer, primary_key=True)
 
-	items = db.relationship('Item', secondary=tuple_item, backref=db.backref('tuples', lazy=True))
+    batch_id = db.Column(db.Integer, db.ForeignKey("batches.id"), nullable=False)
+    batch = db.relationship("Batch", backref=db.backref("tuples", order_by=id), lazy=True)
 
-	def __init__(self, batch=None):
-		self.batch = batch
+    items = db.relationship("Item", secondary=tuple_item, backref=db.backref("tuples", lazy=True))
+
+    def __init__(self, batch=None):
+        self.batch = batch
 
 
 class Item(db.Model):
-	"""
-	Extend :db:`db.Model <flask_sqlalchemy.SQLAlchemy>`.
+    """
+    Extend :db:`db.Model <flask_sqlalchemy.SQLAlchemy>`.
 
-	Store data of each uploaded item from project.
+    Store data of each uploaded item from project.
 
-	Attributes:
-		id (:sql-type:`db.Integer <Integer>`): automatically defined item-id
-		item (:sql-type:`db.String <String>`): (raw) representation of item in string-format
-	"""
-	__tablename__ = 'items'
+    Attributes:
+            id (:sql-type:`db.Integer <Integer>`): automatically defined item-id
+            item (:sql-type:`db.String <String>`): (raw) representation of item in string-format
+    """
 
-	id = db.Column(db.Integer, primary_key=True)
-	item = db.Column(db.Text, unique=True, nullable=False)
+    __tablename__ = "items"
 
-	def __init__(self, item):
-		self.item = item
+    id = db.Column(db.Integer, primary_key=True)
+    item = db.Column(db.Text, unique=True, nullable=False)
+
+    def __init__(self, item):
+        self.item = item
 
 
 class Annotator(UserMixin, db.Model):
-	"""
-	Extend :login:`UserMixin <flask_login.UserMixin>` and
-	:db:`db.Model <flask_sqlalchemy.SQLAlchemy>`.
+    """
+    Extend :login:`UserMixin <flask_login.UserMixin>` and
+    :db:`db.Model <flask_sqlalchemy.SQLAlchemy>`.
 
-	Store data of each (local) annotator from project.
+    Store data of each (local) annotator from project.
 
-	Attributes:
-		id (:sql-type:`db.Integer <Integer>`): automatically defined annotator-id
-		keyword (:sql-type:`db.String <String>`): logged in keyword for annotator
-		name (:sql-type:`db.String <String>`): pseudoname chosen by annotator to 
-			avoid more annotators having access to annotator system using the same keyword
-		project_id (:sql-type:`db.Integer <Integer>`): id of the project 
-														the annotator takes part in
-		project (:sql-rel:`db.relationship <sqlalchemy.orm.relationship>`): ``many-to-one`` 
-														relationship with :class:`Project`
-		batches (:sql-rel:`db.relationship <sqlalchemy.orm.relationship>`): ``many-to-many`` 
-														relationship with :class:`Batch`
-	"""
-	__tablename__ = 'annotators'
+    Attributes:
+            id (:sql-type:`db.Integer <Integer>`): automatically defined annotator-id
+            keyword (:sql-type:`db.String <String>`): logged in keyword for annotator
+            name (:sql-type:`db.String <String>`): pseudoname chosen by annotator to
+                    avoid more annotators having access to annotator system using the same keyword
+            project_id (:sql-type:`db.Integer <Integer>`): id of the project
+                                                                                                            the annotator takes part in
+            project (:sql-rel:`db.relationship <sqlalchemy.orm.relationship>`): ``many-to-one``
+                                                                                                            relationship with :class:`Project`
+            batches (:sql-rel:`db.relationship <sqlalchemy.orm.relationship>`): ``many-to-many``
+                                                                                                            relationship with :class:`Batch`
+    """
 
-	id = db.Column(db.Integer, primary_key=True)
-	keyword = db.Column(db.String(50), unique=True)
-	name = db.Column(db.String(50))
+    __tablename__ = "annotators"
 
-	project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=True)
-	project = db.relationship('Project', backref=db.backref('annotators', order_by=id), lazy=True)
+    id = db.Column(db.Integer, primary_key=True)
+    keyword = db.Column(db.String(50), unique=True)
+    name = db.Column(db.String(50))
 
-	batches = db.relationship('Batch', secondary=annotator_batch, backref=db.backref('annotators', lazy=True))
+    project_id = db.Column(db.Integer, db.ForeignKey("projects.id"), nullable=True)
+    project = db.relationship("Project", backref=db.backref("annotators", order_by=id), lazy=True)
 
-	def __init__(self, keyword=None, name=None, project=None):
-		self.keyword = keyword
-		self.name = name
-		self.project = project
+    batches = db.relationship("Batch", secondary=annotator_batch, backref=db.backref("annotators", lazy=True))
 
-	def get_id(self):
-		"""
-		Override :login:`UserMixin.get_id() <flask_login.UserMixin>` method
-		to manage login in multi-login system.
-		"""
-		return f"annotator:{self.id}"
+    def __init__(self, keyword=None, name=None, project=None):
+        self.keyword = keyword
+        self.name = name
+        self.project = project
+
+    def get_id(self):
+        """
+        Override :login:`UserMixin.get_id() <flask_login.UserMixin>` method
+        to manage login in multi-login system.
+        """
+        return f"annotator:{self.id}"
 
 
 class Data(db.Model):
-	"""
-	Extend :db:`db.Model <flask_sqlalchemy.SQLAlchemy>`.
+    """
+    Extend :db:`db.Model <flask_sqlalchemy.SQLAlchemy>`.
 
-	Store data of each created tuple from project.
+    Store data of each created tuple from project.
 
-	Attributes:
-		id (:sql-type:`db.Integer <Integer>`): automatically defined data-id
-		best_id (:sql-type:`db.Integer <Integer>`): id of item chosen as '**best**'
-												in table :class:`Item`
-		worst_id (:sql-type:`db.Integer <Integer>`): id of item chosen as '**worst**'
-												in table :class:`Item`
-		anno_id (:sql-type:`db.Integer <Integer>`): id of annotator who submits/saves 
-												this data (only in local annotator system)
-		tuple_id (:sql-type:`db.Integer <Integer>`): id of the tuple this data uses
-		annotator (:sql-rel:`db.relationship <sqlalchemy.orm.relationship>`): ``many-to-one`` 
-												relationship with :class:`Annotator`
-		tuple_ (:sql-rel:`db.relationship <sqlalchemy.orm.relationship>`): ``many-to-one``
-												relationship with :class:`Tuple`
-	"""
-	__tablename__ = 'datas'
+    Attributes:
+            id (:sql-type:`db.Integer <Integer>`): automatically defined data-id
+            best_id (:sql-type:`db.Integer <Integer>`): id of item chosen as '**best**'
+                                                                                            in table :class:`Item`
+            worst_id (:sql-type:`db.Integer <Integer>`): id of item chosen as '**worst**'
+                                                                                            in table :class:`Item`
+            anno_id (:sql-type:`db.Integer <Integer>`): id of annotator who submits/saves
+                                                                                            this data (only in local annotator system)
+            tuple_id (:sql-type:`db.Integer <Integer>`): id of the tuple this data uses
+            annotator (:sql-rel:`db.relationship <sqlalchemy.orm.relationship>`): ``many-to-one``
+                                                                                            relationship with :class:`Annotator`
+            tuple_ (:sql-rel:`db.relationship <sqlalchemy.orm.relationship>`): ``many-to-one``
+                                                                                            relationship with :class:`Tuple`
+    """
 
-	id = db.Column(db.Integer, primary_key=True)
+    __tablename__ = "datas"
 
-	best_id = db.Column(db.Integer, db.ForeignKey('items.id'))
-	worst_id = db.Column(db.Integer, db.ForeignKey('items.id'))
+    id = db.Column(db.Integer, primary_key=True)
 
-	anno_id = db.Column(db.Integer, db.ForeignKey('annotators.id'), nullable=True)
-	annotator = db.relationship('Annotator', backref=db.backref('datas', order_by=id), lazy=True)
+    best_id = db.Column(db.Integer, db.ForeignKey("items.id"))
+    worst_id = db.Column(db.Integer, db.ForeignKey("items.id"))
 
-	tuple_id = db.Column(db.Integer, db.ForeignKey('tuples.id'), nullable=False)
-	tuple_ = db.relationship('Tuple', backref=db.backref('datas', order_by=id), lazy=True)
+    anno_id = db.Column(db.Integer, db.ForeignKey("annotators.id"), nullable=True)
+    annotator = db.relationship("Annotator", backref=db.backref("datas", order_by=id), lazy=True)
 
-	def __init__(self, best_id=None, worst_id=None, annotator=None, tuple_=None):
-		self.best_id = best_id
-		self.worst_id = worst_id
-		self.annotator = annotator
-		self.tuple_ = tuple_
-		
+    tuple_id = db.Column(db.Integer, db.ForeignKey("tuples.id"), nullable=False)
+    tuple_ = db.relationship("Tuple", backref=db.backref("datas", order_by=id), lazy=True)
+
+    def __init__(self, best_id=None, worst_id=None, annotator=None, tuple_=None):
+        self.best_id = best_id
+        self.worst_id = worst_id
+        self.annotator = annotator
+        self.tuple_ = tuple_
