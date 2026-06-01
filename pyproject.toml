@@ -1,0 +1,48 @@
+[tool.poetry]
+name = "flask-best-worst-scaling"
+version = "0.1.0"
+description = "Flask web application for Best-Worst Scaling annotation"
+authors = []
+package-mode = false
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.13"
+flask = "^3.1"
+flask-bootstrap3 = "^3.1"
+flask-login = "^0.6"
+flask-sqlalchemy = "^3.1"
+flask-wtf = "^1.2"
+wtforms = "^3.1"
+email-validator = "^2.0"
+boto3 = "^1.35"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^4.0"
+pytest = "^9.0"
+pytest-mock = "^3.14"
+
+[tool.poetry.group.docs.dependencies]
+sphinx-autobuild = "*"
+sphinx-rtd-theme = "*"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+markers = [
+    "functional: marks functional/integration tests",
+    "slow: marks slow tests",
+]
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+ignore = ["E711", "E721", "E731", "F841"]
+
+[tool.ruff.lint.per-file-ignores]
+"main.py" = ["F403"]
+"project/*/__init__.py" = ["E402", "F401"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

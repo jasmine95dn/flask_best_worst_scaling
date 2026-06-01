@@ -1,14 +1,29 @@
+# ── builder stage ──────────────────────────────────────────────────────────────
+FROM python:3.11-slim AS builder
+WORKDIR /app
 
-# pull the python image
-FROM python:3.6
+RUN apt-get update && apt-get install -y --no-install-recommends curl && \
+    rm -rf /var/lib/apt/lists/*
 
-# copy the entire current working directory into the container
+RUN pip install --no-cache-dir poetry && \
+    poetry config virtualenvs.in-project true
+
+COPY pyproject.toml poetry.lock ./
+RUN poetry install --without dev,docs --no-interaction
+
+# ── final stage ────────────────────────────────────────────────────────────────
+FROM python:3.11-slim AS final
+WORKDIR /app
+
+COPY --from=builder /app/.venv .venv
 COPY . .
 
-# run requirements installment
-RUN pip install -r requirements.txt
+ENV PATH="/app/.venv/bin:$PATH" \
+    PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    FLASK_ENV=production
 
-# run the application (currently in development mode)
+EXPOSE 5000
 CMD ["python", "main.py"]
 
 
