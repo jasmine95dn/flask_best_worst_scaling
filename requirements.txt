@@ -10,7 +10,7 @@ Flask-SQLAlchemy==2.4.1
 Flask-WTF==0.14.2
 Jinja2==2.10.3
 MarkupSafe==1.1.1
-pytest==5.2.1
+pytest==9.0.3
 sphinx-autobuild==0.7.1
 sphinx-rtd-theme==0.4.3
 sphinxcontrib-applehelp==1.0.1
